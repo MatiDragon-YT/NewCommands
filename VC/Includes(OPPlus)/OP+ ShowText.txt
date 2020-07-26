@@ -1,0 +1,261 @@
+:initialization_var
+0@ = 0
+1@ = 0
+2@ = 0
+3@ = 0
+4@ = 0
+5@ = 0
+6@ = 0
+7@ = 0
+8@ = 0
+9@ = 0
+10@ = 0
+11@ = 0
+12@ = 0
+13@ = 0
+14@ = 0
+15@ = 0
+return
+
+:get_addr_or_library_failed
+05F5: call_scm_func @show_text_highpriority params_count 2 @failed_text @text_buf
+jump @freedll
+
+:CLEO_V_error
+05F5: call_scm_func @show_text_highpriority params_count 2 @CLEO_V_error_text @text_buf
+jump @freedll
+
+:OPPlus_file_not_exists_1
+05F5: call_scm_func @show_text_highpriority params_count 2 @file_not_exists_text @text_buf
+jump @freedll
+
+:OPPlus_file_not_exists_2
+0ACD: show_text_highpriority "OP+ script file does not exist! Please put OP+ file into CLEO\SCR folder." time 5000
+05DC: end_custom_thread
+
+:show_text_highpriority
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@ 
+05E1: call _CMessages_AddMessageJumpQ num_params 3 pop 3 flag 1 time 5000 String 15@
+05F6: ret 0
+
+:show_text_lowpriority
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@ 
+05E1: call _CMessages_AddMessage num_params 3 pop 3 flag 1 time 3000 String 15@
+05F6: ret 0
+
+:show_text_box
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@ 
+05E1: call _CHud_SetHelpMessage num_params 3 pop 3 permanent 0 quickMessage 0 text 15@
+05F6: ret 0
+
+:show_text_styled
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@
+05E1: call _CMessages_AddBigMessage num_params 3 pop 3 style 4 time 5000 String 15@
+05F6: ret 0
+
+:show_text_number_styled
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@
+05E1: call _CMessages_AddBigMessageWithNumber num_params 9 pop 9 num1_6 7@ 6@ 5@ 4@ 3@ 2@ style 5 time 3000 String 15@
+05F6: ret 0
+
+:show_text_highpriority_number
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@
+05E1: call _CMessages_AddMessageJumpQWithNumber num_params 9 pop 9 num1_6 7@ 6@ 5@ 4@ 3@ 2@ flag 1 time 3000 String 15@
+05F6: ret 0
+
+:show_text_lowpriority_number
+gosub @Get_text_label_offset
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 15@ str_ascii 0@
+05E1: call _CMessages_AddMessageWithNumber num_params 9 pop 9 num1_6 7@ 6@ 5@ 4@ 3@ 2@ flag 1 time 3000 String 15@
+05F6: ret 0
+
+:Get_text_label_offset
+gosub @get_thread_ptr
+15@ -= 0@ // Get text label offset
+0@ = 15@
+gosub @get_thread_ptr
+15@ -= 1@ // Get text label offset
+return
+
+:get_thread_ptr
+05EC: 15@ = current_thread_pointer
+15@ += 0x98 //CScript(CThread).m_dwBaseIp
+05E0: 15@ = read_memory 15@ size 4 virtual_protect 0
+return
+
+:GAME_V_error_text
+hex
+ "The"20"game"20"version"20"is"20"wrong!"20
+ "Please"20"check"20"if"20"your"20"game"20"version"20"is"20"1.0."00
+end
+
+:CLEO_V_error_text
+hex
+ "CLEO"20"Library"20"version"20"error!"20 
+ "This"20"CLEO"20"only"20"supports"20"CLEO"20"main"20"programs"20"1.6"20"and"20"2.0.0.5."00
+end
+
+:failed_text
+hex
+ "Failed"20"to"20"obtain"20"the"20"dynamic"20"link"20"library"20"and"20"retrieve"20"the"20"function"20"address!"20 
+ "Please"20"check"20"whether"20"your"20"library"20"file"20"exists"20"or"20"the"20"version"20"is"20"correct."00
+end
+
+:file_not_exists_text
+hex
+ "OP+"20"script"20"file"20"does"20"not"20"exist!"20
+ "Please"20"put"20"OP+"20"file"20"into"20"CLEO\SCR"20"folder."00 
+end
+
+:test_text_1
+hex
+ "OPPlus(OP+)v0.1"20"OP"20"test"20"function"20"is"20"enabled."20"By:"20"XMDS."00
+end
+
+:test_text_2
+hex
+ "OP"20"currently"20"added:"20"0BB4---0BC5"00
+end
+
+:test_text_3
+hex
+ "Please"20"enter"20"the"20"CheatCode"20"to"20"open"20"the"20"corresponding"20"OP"20"test"20"function"00
+end
+
+:test_text_4
+hex
+ "OPPlus(OP+)v0.1"20"OP"20"test"20"function"20"is"20"closes."20"By:"20"XMDS."00
+end
+
+:test_bit_0BB4_0BC5_text
+hex
+ "Test"20"OP:"20"0BB4---0BC5"00
+end
+
+:test_bit_0BB4_text
+hex
+ "OP"20"0x0BB4"20"bit"20"~1~"00
+end
+
+:test_bit_0BB5_text
+hex
+ "OP"20"0x0BB5"20"bit"20"~1~"00
+end
+
+:test_bit_0BB6_text
+hex
+ "OP"20"0x0BB6"20"bit"20"~1~"00
+end
+
+:test_bit_0BB7_text
+hex
+ "OP"20"0x0BB7"20"bit"20"~1~"00
+end
+
+:test_bit_0BB8_text
+hex
+ "OP"20"0x0BB8"20"bit"20"~1~"00
+end
+
+:test_bit_0BB9_text
+hex
+ "OP"20"0x0BB9"20"bit"20"~1~"00
+end
+
+:set_bit_0BBA_0BBF_text1
+hex
+ "0x0BBA-0x0BBE:"20"bit"20"~1~"20"0x0BBF:"20"bit"20"~1~"00
+end 
+
+:set_bit_0BBA_0BBF_text2
+hex
+ "OP"20
+ "0x0BBA:"20"~1~"20
+ "0x0BBB:"20"~1~"20
+ "0x0BBC:"20"~1~"20
+ "0x0BBD:"20"~1~"20
+ "0x0BBE:"20"~1~"20
+ "0x0BBF:"20"~1~"00
+end
+
+:Clear_bit_0BC0_0BC5_text1
+hex
+ "0x0BC0-0x0BC4:"20"bit"20"~1~"20"0x0BC5:"20"bit"20"~1~"00
+end 
+
+:Clear_bit_0BC0_0BC5_text2
+hex
+ "OP"20
+ "0x0BC0"20"~1~"20
+ "0x0BC1"20"~1~"20
+ "0x0BC2"20"~1~"20
+ "0x0BC3"20"~1~"20
+ "0x0BC4"20"~1~"20
+ "0x0BC5"20"~1~"00
+end
+
+:text_buf
+hex
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+end
+
+:textbox_buf
+hex
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+end
+
+:textstyled_buf
+hex
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+end
+
+:textnumber_buf
+hex
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+end
+
+:textstyled_number_buf
+hex
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+end

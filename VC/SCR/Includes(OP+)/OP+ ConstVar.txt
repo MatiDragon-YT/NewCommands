@@ -1,0 +1,58 @@
+const
+ CLEO_V_1_6_Thread_ID        = 0@
+ CLEO_V_2_0_Thread_ID        = 0@
+ OP_Thread_ID                = 0@
+ 
+ _cleo_asi_hModule           = 1@
+ OPPlus_thread_state         = 2@
+ OPPlus_detect               = 3@
+ 
+ //CLEO 2.0
+ _RegisterOpcode             = 3@
+ _Collect                    = 4@
+ _GetPointerToScriptVariable = 5@
+ _UpdateCompareFlag          = 6@
+ 
+ //CLEO 1.6
+ _RegOpcode                  = 3@
+ _getParamCollect            = 4@
+ _GetVariablePointer         = 5@
+ _CompareFlag                = 6@
+ 
+ _ASM_OP_0BB4                = 15@
+ _ASM_OP_0BBA                = 15@
+ _ASM_OP_0BBD                = 15@
+ _ASM_OP_0BC0                = 15@
+ _ASM_OP_0BC3                = 15@ 
+end
+ 
+const
+ _CTheScripts_ScriptParams   = 0x007D7438 //tScriptVariable *CTheScripts::ScriptParams = (tScriptVariable *)0x7D7438
+ _HMalloc                    = 0x00661870
+ _free                       = 0x006618A0
+ _CHud_SetHelpMessage        = 0x0055BFC0 //void CHud::SetHelpMessage(wchar_t const *message, bool quickMessage, bool permanent)
+ _AsciiToUnicode             = 0x00552500 //void AsciiToUnicode(char const* str_ascii, wchar_t* str_unicode)
+end
+
+const
+ CLEO_V_1_6                  = 1.6
+ CLEO_V_2_0                  = 2.0
+ 
+ //1.6 CLEO.asi func Imagebase
+ _cleo_asi_1_6_Imagebase     = 0x10000000
+ _RegOpcode_ib               = 0x10001B37 //bool RegOpcode(void *func,int opcode)
+ _getParamCollect_ib         = 0x100015A1 
+ _GetVariablePointer_ib      = 0x1000172F
+ _CompareFlag_ib             = 0x100016CD 
+end
+
+var
+ 0@ : int
+ 1@ : int
+ 2@ : int
+ 3@ : int
+ 4@ : int
+ 5@ : int
+ 14@ : int 
+ 15@ : int 
+end

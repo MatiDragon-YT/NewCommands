@@ -1,0 +1,163 @@
+{
+0@ = OP_Thread_ID = OP id
+1@ = RegisterOpcode
+2@ = OP ASM func
+//2.0: RegisterOpcode(unsigned short id, Opcode func)
+//1.6: RegOpcode(void *func,int opcode)
+}
+if
+ CLEO_V_1_6_Thread_ID <> CLEO_V_1_6
+jf @CLEO_V_1_6_OPPlus
+if
+ CLEO_V_2_0_Thread_ID <> CLEO_V_2_0
+jf @CLEO_V_2_0_OPPlus
+if or 
+ OP_Thread_ID <> 0x0BB4
+ OPPlus_detect == CLEO_V_2_0 
+jf @OPPlus_0BB4_1_6
+if or 
+ OP_Thread_ID <> 0x0BB4
+ OPPlus_detect == CLEO_V_1_6 
+jf @OPPlus_0BB4_2_0
+if or
+ OP_Thread_ID <> 0x0BBA
+ OPPlus_detect == CLEO_V_2_0
+jf @OPPlus_0BBA_1_6
+if or
+ OP_Thread_ID <> 0x0BBA
+ OPPlus_detect == CLEO_V_1_6
+jf @OPPlus_0BBA_2_0
+if or
+ OP_Thread_ID <> 0x0BBD
+ OPPlus_detect == CLEO_V_2_0
+jf @OPPlus_0BBD_1_6
+if or
+ OP_Thread_ID <> 0x0BBD
+ OPPlus_detect == CLEO_V_1_6
+jf @OPPlus_0BBD_2_0
+if or
+ OP_Thread_ID <> 0x0BC0
+ OPPlus_detect == CLEO_V_2_0
+jf @OPPlus_0BC0_1_6
+if or
+ OP_Thread_ID <> 0x0BC0
+ OPPlus_detect == CLEO_V_1_6
+jf @OPPlus_0BC0_2_0
+if or
+ OP_Thread_ID <> 0x0BC3
+ OPPlus_detect == CLEO_V_2_0
+jf @OPPlus_0BC3_1_6
+if or
+ OP_Thread_ID <> 0x0BC3
+ OPPlus_detect == CLEO_V_1_6
+jf @OPPlus_0BC3_2_0
+
+05DC: end_custom_thread  
+
+{SA to VC 
+08B4=2,  test %1d% bit %2h% --- 0BB4=2,  test %1d% bit %2h%
+08B5=2,  test %1d% bit %2d% --- 0BB5=2,  test %1d% bit %2d%
+08B6=2,  test %1d% bit %2d% --- 0BB6=2,  test %1d% bit %2d%
+08B7=2,  test %1d% bit %2h% --- 0BB7=2,  test %1d% bit %2h%
+08B8=2,  test %1d% bit %2d% --- 0BB8=2,  test %1d% bit %2d%
+08B9=2,  test %1d% bit %2d% --- 0BB9=2,  test %1d% bit %2d%
+}
+:OPPlus_0BB4_1_6
+05E1: call 1@ num_params 2 pop 0 OP_Thread_ID 2@
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BBA
+jf @OPPlus_0BB4_1_6
+05DC: end_custom_thread
+
+:OPPlus_0BB4_2_0
+0AA5: call 1@ num_params 2 pop 0 2@ OP_Thread_ID
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BBA
+jf @OPPlus_0BB4_2_0 
+0A93: end_custom_thread
+
+{SA to VC
+08BA=2,set %1d% bit %2h% --- 0BBA=2,set %1d% bit %2h%  
+08BB=2,set %1d% bit %2d% --- 0BBB=2,set %1d% bit %2d%
+08BC=2,set %1d% bit %2d% --- 0BBC=2,set %1d% bit %2d%
+}
+:OPPlus_0BBA_1_6
+05E1: call 1@ num_params 2 pop 0 OP_Thread_ID 2@
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BBD
+jf @OPPlus_0BBA_1_6
+05DC: end_custom_thread
+
+:OPPlus_0BBA_2_0
+0AA5: call 1@ num_params 2 pop 0 2@ OP_Thread_ID
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BBD
+jf @OPPlus_0BBA_2_0
+0A93: end_custom_thread
+
+{SA to VC
+08BD=2,set %1d% bit %2h% --- 0BBD=2,set %1d% bit %2h%
+08BE=2,set %1d% bit %2d% --- 0BBE=2,set %1d% bit %2d%
+08BF=2,set %1d% bit %2d% --- 0BBF=2,set %1d% bit %2d%
+}
+:OPPlus_0BBD_1_6
+05E1: call 1@ num_params 2 pop 0 OP_Thread_ID 2@
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BC0
+jf @OPPlus_0BBD_1_6
+05DC: end_custom_thread
+
+:OPPlus_0BBD_2_0
+0AA5: call 1@ num_params 2 pop 0 2@ OP_Thread_ID
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BC0
+jf @OPPlus_0BBD_2_0
+0A93: end_custom_thread
+
+{SA to VC
+08C0=2,clear %1d% bit %2h% --- 0BC0=2,clear %1d% bit %2h%
+08C1=2,clear %1d% bit %2d% --- 0BC1=2,clear %1d% bit %2d%
+08C2=2,clear %1d% bit %2d% --- 0BC2=2,clear %1d% bit %2d%
+}
+:OPPlus_0BC0_1_6
+05E1: call 1@ num_params 2 pop 0 OP_Thread_ID 2@
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BC3
+jf @OPPlus_0BC0_1_6
+05DC: end_custom_thread
+
+:OPPlus_0BC0_2_0
+0AA5: call 1@ num_params 2 pop 0 2@ OP_Thread_ID
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BC3
+jf @OPPlus_0BC0_2_0
+0A93: end_custom_thread
+
+{SA to VC
+08C3=2,clear %1d% bit %2h% --- 0BC3=2,clear %1d% bit %2h%
+08C4=2,clear %1d% bit %2d% --- 0BC4=2,clear %1d% bit %2d%
+08C5=2,clear %1d% bit %2d% --- 0BC5=2,clear %1d% bit %2d%
+}
+:OPPlus_0BC3_1_6
+05E1: call 1@ num_params 2 pop 0 OP_Thread_ID 2@
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BC6
+jf @OPPlus_0BC3_1_6
+05DC: end_custom_thread
+
+:OPPlus_0BC3_2_0
+0AA5: call 1@ num_params 2 pop 0 2@ OP_Thread_ID
+OP_Thread_ID += 0x1
+if
+ OP_Thread_ID == 0x0BC6
+jf @OPPlus_0BC3_2_0
+0A93: end_custom_thread

@@ -1,0 +1,18 @@
+{$CLEO}
+thread 'OPPlus'
+{by :XMDS}
+{VC OP+ 0.1}
+
+{$INCLUDE Includes(OP+)\OP+ ConstVar.txt}
+
+//OP number range: 0x0800-08FF is occupied by MVL, please do not use.
+{$INCLUDE Includes(OP+)\OP+ RegOpcode.txt}
+{$INCLUDE Includes(OP+)\OP+ Main.txt}
+
+{$INCLUDE Includes(OP+)\OP+ 0BB4.txt}
+{$INCLUDE Includes(OP+)\OP+ 0BBA-0BBC.txt}
+{$INCLUDE Includes(OP+)\OP+ 0BBD-0BBF.txt}
+{$INCLUDE Includes(OP+)\OP+ 0BC0-0BC2.txt}
+{$INCLUDE Includes(OP+)\OP+ 0BC3-0BC5.txt}
+
+{$INCLUDE Includes(OP+)\OP+ Text.txt}

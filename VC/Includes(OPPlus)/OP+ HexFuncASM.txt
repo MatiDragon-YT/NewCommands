@@ -1,0 +1,52 @@
+:Kernel32_dll
+hex
+ "Kernel32.dll" 00
+end
+
+:GetModuleHandleExA
+hex
+ "GetModuleHandleExA" 00
+end
+
+:GetVersionFunc
+hex
+ "?CLEO_GetVersion@@YAIXZ" 00
+end
+
+:GetFileAttributesA
+hex
+ "GetFileAttributesA" 00
+end
+
+:OPPlusFilePath
+hex
+ "\\CLEO\\SCR\\OP+" 00
+end
+
+:ASM_call_GetModuleHandleExA
+hex
+{0000} 55              //push    ebp
+{0001} 8BEC            //mov     ebp, esp
+{0003} 83EC 04         //sub     esp, 4
+{0006} 8D45FC          //lea     eax, [ebp-4]  
+{0009} 50              //push    eax
+{000A} 8B45 04         //mov     eax, [ebp+4] 
+{000D} 50              //push    eax
+{000E} 6A 06           //push    6
+{0010} E8 00000000     //call    GetModuleHandleExA
+{0015} 8B45FC          //mov     eax, [ebp-4]
+{0018} 83C4 04         //add     esp, 4
+{001B} 5D              //pop     ebp
+{001C} C3              //ret
+end
+
+:Directory_Buf
+hex
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+end

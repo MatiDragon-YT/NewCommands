@@ -1,0 +1,71 @@
+const
+ LoadLibraryA                         = 0x006F2484 //HMODULE __stdcall LoadLibraryA(LPCSTR lpLibFileName)
+ GetProcAddress                       = 0x006F2488 //FARPROC __stdcall GetProcAddress(HMODULE hModule, LPCSTR lpProcName)
+ FreeLibrary                          = 0x006F248C //BOOL __stdcall FreeLibrary(HMODULE hLibModule)
+ GetCurrentDirectoryA                 = 0x006F245C //DWORD __stdcall GetCurrentDirectoryA(DWORD nBufferLength, LPSTR lpBuffer)
+ //text 
+ _AsciiToUnicode                      = 0x00552500 //void AsciiToUnicode(char const* str_ascii, wchar_t* str_unicode)
+ _CMessages_AddMessageJumpQ           = 0x00584300 //void CMessages::AddMessageJumpQ(wchar_t* pString, unsigned int time, unsigned short flag)
+ _CHud_SetHelpMessage                 = 0x0055BFC0 //void CHud::SetHelpMessage(wchar_t const *message, bool quickMessage, bool permanent)
+ _CMessages_AddBigMessage             = 0x00584050 //void CMessages::AddBigMessage(wchar_t* pString, unsigned int time, unsigned short style)
+ _CMessages_AddMessage                = 0x00584410 //void CMessages::AddMessage(wchar_t* pString, unsigned int time, unsigned short flag)
+ _CMessages_AddBigMessageWithNumber   = 0x00583350 //void CMessages::AddBigMessageWithNumber(wchar_t* pString, unsigned int time, unsigned short style, int number, int number2, int number3, int number4, int number5, int number6)
+ _CMessages_AddMessageJumpQWithNumber = 0x00583440 //void CMessages::AddMessageJumpQWithNumber(wchar_t* pString, unsigned int time, unsigned short flag, int number, int number2, int number3, int number4, int number5, int number6)
+ _CMessages_AddMessageWithNumber      = 0x00583560 //void CMessages::AddMessageWithNumber(wchar_t* pString, unsigned int time, unsigned short flag, int number, int number1, int number2, int number3, int number4, int number5)
+  
+ _strcat                              = 0x006425B0 //char *__cdecl strcat(char *Dest, const char *Source)
+ _CPad_KeyBoardCheatString            = 0x00A10942 //CPad::KeyBoardCheatString 
+end
+
+const
+ _CLEO_Version                = 15@
+ _LoadLibraryA                = 0@
+ _GetProcAddress              = 1@
+ _FreeLibrary                 = 2@
+ _Kernel32_dll_hModule        = 3@
+ _Kernel32_dll                = 4@
+ _GetModuleHandleExA          = 5@
+ _GetModuleHandleExA_Addr     = 6@
+ _ASM_call_GetModuleHandleExA = 7@
+ _cleo_asi_hModule            = 8@
+ _cleo_asi_1_6_Version_addr   = 9@
+ _addr_add_4                  = 10@
+ ID_1                         = 11@
+ ID_6                         = 12@
+ _GetVersionFunc              = 13@
+ _GetVersionFunc_addr         = 14@
+ 
+ _GetFileAttributesA          = 5@ //DWORD __stdcall GetFileAttributesA(LPCSTR lpFileName)
+ _GetFileAttributesA_addr     = 6@
+ _GetCurrentDirectoryA        = 10@
+ _VC_Directory                = 11@
+ _OPPlusFilePath              = 12@
+ _GetFileAttributesA_ret      = 15@
+ OPPlus_thread_state          = 15@  
+end
+
+const
+ GTAVC_1_0                = 0
+ CLEO_V_1_6               = 0
+ CLEO_V_2_0               = -1
+ NULL                     = 0
+ _cleo_asi_1_6_Version_ib = 0x100010E0
+ _cleo_asi_1_6_Imagebase  = 0x10000000
+ Max_Length               = 260
+ INVALID_FILE_ATTRIBUTES  = -1
+ CLEO_V_1_6_Thread_ID     = 1.6
+ CLEO_V_2_0_Thread_ID     = 2.0
+end
+
+var
+ 0@  : int
+ 1@  : int
+ 6@  : int
+ 7@  : int
+ 8@  : int
+ 9@  : int
+ 10@ : int
+ 11@ : float
+ 12@ : float
+ 15@ : int
+end

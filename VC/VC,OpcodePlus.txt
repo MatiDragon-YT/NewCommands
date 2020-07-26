@@ -1,0 +1,15 @@
+{$CLEO}
+0000:
+{by :XMDS}
+{VC OP+ 0.1}
+
+{$INCLUDE Includes(OPPlus)\DirectivesOpcode.txt}
+{$INCLUDE Includes(OPPlus)\OP+ ConstVar.txt} 
+
+{$INCLUDE Includes(OPPlus)\OP+ CLEOVersion.txt}
+{$INCLUDE Includes(OPPlus)\OP+ TestOpcodesV1.6.txt}
+{$INCLUDE Includes(OPPlus)\OP+ TestOpcodesV2.0.txt}
+
+{$INCLUDE Includes(OPPlus)\OP+ ShowText.txt}
+
+{$INCLUDE Includes(OPPlus)\OP+ HexFuncASM.txt}

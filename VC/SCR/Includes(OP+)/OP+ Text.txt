@@ -1,0 +1,19 @@
+:get_addr_failed
+0ACD: show_text_highpriority "Failed to obtain the dynamic link library and retrieve the function address! Please check whether your library file exists or the version is correct." time 5000
+0A93: end_custom_thread
+
+:show_text_box
+05EC: 15@ = current_thread_pointer
+15@ += 0x98 //CScript(CThread).m_dwBaseIp
+05E0: 15@ = read_memory 15@ size 4 virtual_protect 0
+15@ -= 0@ // Get text label offset
+05E2: call_function _HMalloc num_params 1 pop 1 size 200 1@
+05E1: call _AsciiToUnicode num_params 2 pop 2 str_unicode 1@ str_ascii 15@ 
+05E1: call _CHud_SetHelpMessage num_params 3 pop 3 permanent 1 quickMessage 0 text 1@
+05E1: call _free num_params 1 pop 1 1@
+05F6: ret 0
+
+:OPPlus_text
+hex
+ "OPPlus(OP+)v0.1"20"script"20"has"20"been"20"activated!"20"By:"20"XMDS."00
+end

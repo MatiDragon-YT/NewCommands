@@ -1,0 +1,57 @@
+:CLEO_V_1_6_OPPlus
+05F5: call_scm_func @show_text_box params_count 1 @OPPlus_text
+05F5: call_scm_func @get_Func_address params_count 6 _cleo_asi_hModule _cleo_asi_1_6_Imagebase _RegOpcode_ib _getParamCollect_ib _GetVariablePointer_ib _CompareFlag_ib  ret _RegOpcode _getParamCollect _GetVariablePointer _CompareFlag
+//opcode
+05F5: call_scm_func @OP_0BB4_TestBit_1_6 params_count 4 0x0BB4 _RegOpcode _getParamCollect _CompareFlag
+05F5: call_scm_func @OP_0BBA_SetBit_1_6 params_count 4 0x0BBA _RegOpcode _getParamCollect _GetVariablePointer
+05F5: call_scm_func @OP_0BBD_SetBit_1_6 params_count 4 0x0BBD _RegOpcode _getParamCollect _GetVariablePointer      
+05F5: call_scm_func @OP_0BC0_ClearBit_1_6 params_count 4 0x0BC0 _RegOpcode _getParamCollect _GetVariablePointer
+05F5: call_scm_func @OP_0BC3_ClearBit_1_6 params_count 4 0x0BC3 _RegOpcode _getParamCollect _GetVariablePointer
+OPPlus_thread_state += 0x3C
+05DF: write_memory OPPlus_thread_state size 4 value CLEO_V_1_6 virtual_protect 1
+wait 5000
+03E6: remove_text_box
+05DC: end_custom_thread
+
+:get_Func_address{
+0@ = _cleo_asi_hModule
+1@ = _cleo_asi_1_6_Imagebase
+2@ = _RegOpcode_ib
+3@ = _getParamCollect_ib
+4@ = _GetVariablePointer_ib
+5@ = _CompareFlag_ib }
+2@ -= 1@
+2@ += 0@
+3@ -= 1@
+3@ += 0@
+4@ -= 1@
+4@ += 0@
+5@ -= 1@
+5@ += 0@
+05F6: ret 4 2@ 3@ 4@ 5@   
+
+:CLEO_V_2_0_OPPlus
+if
+0AA9:  is_game_version_original 
+jf @CLEO_V_2_0_OPPlus
+0ADF: add_dynamic_GXT_entry "OP+text" text "OPPlus(OP+)v0.1 script has been activated! By: XMDS."
+0512: show_permanent_text_box 'OP+text' 
+//0AA2: _cleo_asi_hModule = load_library "VC.CLEO.asi"
+if and
+ 0AA4: _RegisterOpcode = get_proc_address "?RegisterOpcode@Opcodes@@SA_NGP6G?AW4eOpcodeResult@@PAVCScript@@@Z@Z" library _cleo_asi_hModule //RegisterOpcode(unsigned short id, Opcode func)
+ 0AA4: _Collect = get_proc_address "?Collect@CScript@@QAEXI@Z" library _cleo_asi_hModule   //CScript::Collect(unsigned int numParams)
+ 0AA4: _GetPointerToScriptVariable = get_proc_address "?GetPointerToScriptVariable@CScript@@QAEPAXXZ" library _cleo_asi_hModule //CScript::GetPointerToScriptVariable()
+ 0AA4: _UpdateCompareFlag = get_proc_address "?UpdateCompareFlag@CScript@@QAEX_N@Z" library _cleo_asi_hModule //CScript::UpdateCompareFlag(bool result)
+jf @get_addr_failed
+//opcode
+0AB1: call_scm_func @OP_0BB4_TestBit_2_0 4 0x0BB4 _RegisterOpcode _Collect _UpdateCompareFlag
+0AB1: call_scm_func @OP_0BBA_SetBit_2_0 4 0x0BBA _RegisterOpcode _Collect _GetPointerToScriptVariable
+0AB1: call_scm_func @OP_0BBD_SetBit_2_0 4 0x0BBD _RegisterOpcode _Collect _GetPointerToScriptVariable
+0AB1: call_scm_func @OP_0BC0_ClearBit_2_0 4 0x0BC0 _RegisterOpcode _Collect _GetPointerToScriptVariable
+0AB1: call_scm_func @OP_0BC3_ClearBit_2_0 4 0x0BC3 _RegisterOpcode _Collect _GetPointerToScriptVariable
+OPPlus_thread_state += 0x3C
+0A8C: write_memory OPPlus_thread_state size 4 value CLEO_V_2_0 virtual_protect 1
+wait 5000
+03E6: remove_text_box
+0AE0: remove_dynamic_GXT_entry "OP+text"
+0A93: end_custom_thread

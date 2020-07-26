@@ -1,0 +1,82 @@
+{$OPCODE 021F=1,set_all_taxi_lights %1d%} 
+{$CLEO}
+0000:
+jump @add_op_021F
+
+const
+ _CRunningScript_ProcessCommands500To599_offset = 0x00689B1C //OP_01F4
+ _CRunningScript_CollectParameters = 0x00451010 //CRunningScript::CollectParameters(int* arg0, short count)
+ _CTheScripts_ScriptParams = 0x007D7438 //tScriptVariable *CTheScripts::ScriptParams = (tScriptVariable *)0x7D7438
+ _CAutomobile_m_sAllTaxiLights = 0x00A10ABB //bool &CAutomobile::m_sAllTaxiLights = *(bool *)0xA10ABB 
+ _case_543_OP_021F_ID = 43
+ _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F = 1@
+ _CRunningScript_ProcessCommands543_offset = 2@
+end // const
+/*
+/* 021F */
+{
+eOpcodeResult WINAPI SET_ALL_TAXI_LIGHTS(CScript *script)
+{
+	script->Collect(1);
+	CAutomobile::m_sAllTaxiLights = !!ScriptParams[0].int32;
+	return OR_CONTINUE;
+}
+:_ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F
+hex
+8D45 10          //00000000 lea     eax, [ebp+10h]
+89E9             //00000003 mov     ecx, ebp
+6A 01            //00000005 push    1
+50               //00000007 push    eax
+E8 00000000      //00000008 call    CRunningScript::CollectParameters
+833D 00000000 00 //0000000D cmp     ds:ScriptParams, 0
+74 09            //00000014 jz      short loc_0000001F
+C605 00000000 01 //00000016 mov     ds:m_sAllTaxiLights, 1   
+EB 07            //0000001D jmp     short loc_00000026
+//loc_0000001F:
+C605 00000000 00 //0000001F mov     ds:m_sAllTaxiLights, 0
+//loc_00000026:
+30 C0           //00000026 xor     al, al
+81C4 D0010000   //00000028 add     esp, 1D0h
+5D              //0000002E pop     ebp
+5E              //0000002F pop     esi
+5B              //00000030 pop     ebx
+C2 0400         //00000031 retn    4
+end
+
+:add_op_021F 
+//05EC: 0@ = current_thread_pointer
+//0@ += 0x9C
+//05E0: 0@ = read_memory 0@ size 4 virtual_protect 0
+//0A8F: _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F = 0@ - @_ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F
+05F7: _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F = label @_ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F offset
+0A90: 3@ = _case_543_OP_021F_ID * 4
+0A8E: _CRunningScript_ProcessCommands543_offset = _CRunningScript_ProcessCommands500To599_offset + 3@
+05DF: write_memory _CRunningScript_ProcessCommands543_offset size 4 value _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F virtual_protect 1
+0A8E: 4@ = _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F + 0x09
+0606: set_memory_offset memory_pointer 4@ memory_to_point _CRunningScript_CollectParameters virtual_protect 0
+//0A8E: 5@ = 4@ + 4
+//0A8F: 6@ = _CRunningScript_CollectParameters - 5@
+//05DF: write_memory 4@ size 4 value 6@ virtual_protect 0
+0A8E: 4@ = _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F + 0x0F
+05DF: write_memory 4@ size 4 value _CTheScripts_ScriptParams virtual_protect 0
+0A8E: 4@ = _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F + 0x18
+05DF: write_memory 4@ size 4 value _CAutomobile_m_sAllTaxiLights virtual_protect 0
+0A8E: 4@ = _ASM_HOOK_CRunningScript_ProcessCommands500To599_case_543_OP_021F + 0x21
+05DF: write_memory 4@ size 4 value _CAutomobile_m_sAllTaxiLights virtual_protect 0
+
+:test_op_021F_ON
+wait 0
+if
+0ADC:   test_cheat "TLON"
+jf @test_op_021F_OFF 
+021F: set_all_taxi_lights 1
+0ACE: show_formatted_text_box "opcode %.4X taxi lights ON " 0x021F
+
+:test_op_021F_OFF
+wait 0
+if
+0ADC:   test_cheat "TLOFF"
+jf @test_op_021F_ON
+021F: set_all_taxi_lights 0
+0ACE: show_formatted_text_box "opcode %.4X taxi lights OFF " 0x021F
+jump @test_op_021F_ON

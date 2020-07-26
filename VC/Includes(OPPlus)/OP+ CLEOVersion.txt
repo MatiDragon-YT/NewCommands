@@ -1,0 +1,110 @@
+05E5: 0@ = game_version
+if
+0@ <> GTAVC_1_0 // VC 1.0
+jf @CLEO_Version_1_6
+05F5: call_scm_func @show_text_highpriority params_count 2 @GAME_V_error_text @text_buf
+end_thread
+
+:CLEO_Version_1_6
+wait 0
+05EF: _CLEO_Version = 999999999.0 -999999999.0 1000000000.0 0.0 0 1
+05E0: _LoadLibraryA = read_memory LoadLibraryA size 4 virtual_protect 0
+05F7: _Kernel32_dll = label @Kernel32_dll offset
+05E2: call_function _LoadLibraryA num_params 1 pop 0 _Kernel32_dll _Kernel32_dll_hModule
+if
+ _Kernel32_dll_hModule <> NULL 
+jf @CLEO_Version_1_6
+05E0: _GetProcAddress = read_memory GetProcAddress size 4 virtual_protect 0
+05F7: _GetModuleHandleExA = label @GetModuleHandleExA offset
+05E2: call_function _GetProcAddress num_params 2 pop 0 _GetModuleHandleExA _Kernel32_dll_hModule _GetModuleHandleExA_Addr
+if
+ _GetModuleHandleExA_Addr <> NULL
+jf @get_addr_or_library_failed
+05F7: _ASM_call_GetModuleHandleExA = label @ASM_call_GetModuleHandleExA offset
+_ASM_call_GetModuleHandleExA += 0x11
+_addr_add_4 = _ASM_call_GetModuleHandleExA
+_addr_add_4 += 0x04
+_GetModuleHandleExA_Addr -= _addr_add_4
+05DF: write_memory _ASM_call_GetModuleHandleExA size 4 value _GetModuleHandleExA_Addr virtual_protect 1
+_ASM_call_GetModuleHandleExA -= 0x11
+05E2: call_function _ASM_call_GetModuleHandleExA num_params 0 pop 0 _cleo_asi_hModule
+if
+ _cleo_asi_hModule <> NULL 
+jf @get_addr_or_library_failed
+_cleo_asi_1_6_Version_addr = _cleo_asi_1_6_Version_ib
+_cleo_asi_1_6_Version_addr -= _cleo_asi_1_6_Imagebase
+_cleo_asi_1_6_Version_addr += _cleo_asi_hModule
+05E0: ID_1 = read_memory _cleo_asi_1_6_Version_addr size 1 virtual_protect 0
+_cleo_asi_1_6_Version_addr += 0x0C 
+05E0: ID_6 = read_memory _cleo_asi_1_6_Version_addr size 1 virtual_protect 0
+05F9: ID_1 = ID_1 AND 0x0F 
+05FB: ID_6 = ID_6 XOR 0x30
+008D: ID_1 = integer_to_float ID_1 
+008D: ID_6 = integer_to_float ID_6 
+ID_6 -= 5.5
+ID_6 += 0.1
+ID_1 += ID_6
+if and 
+ ID_1 == 1.6
+ _CLEO_Version == CLEO_V_1_6
+jf @CLEO_Version_2_0 
+jump @CLEO_V_1_6_MAIN
+
+:CLEO_Version_2_0
+05F7: _GetVersionFunc = label @GetVersionFunc offset
+05E2: call_function _GetProcAddress num_params 2 pop 0 _GetVersionFunc _cleo_asi_hModule _GetVersionFunc_addr 
+if
+ _GetVersionFunc_addr <> NULL
+jf @get_addr_or_library_failed
+05E2: call_function _GetVersionFunc_addr num_params 0 pop 0 ID_1
+if and
+ ID_1 == 0x20005
+ _CLEO_Version == CLEO_V_2_0 
+jf @CLEO_V_error 
+05E0: _FreeLibrary = read_memory FreeLibrary size 4 virtual_protect 0
+05E1: call _FreeLibrary num_params 1 pop 0 _Kernel32_dll_hModule
+jump @CLEO_V_2_0_MAIN
+
+:CLEO_V_1_6_MAIN
+05F7: _GetFileAttributesA = label @GetFileAttributesA offset
+05E2: call_function _GetProcAddress num_params 2 pop 0 _GetFileAttributesA _Kernel32_dll_hModule _GetFileAttributesA_addr
+if
+ _GetFileAttributesA_addr <> NULL
+jf @get_addr_or_library_failed
+05E0: _GetCurrentDirectoryA = read_memory GetCurrentDirectoryA size 4 virtual_protect 0
+05F7: _VC_Directory = label @Directory_Buf offset
+05E1: call _GetCurrentDirectoryA num_params 2 pop 0 _VC_Directory Max_Length
+05F7: _OPPlusFilePath = label @OPPlusFilePath offset
+05E1: call _strcat num_params 2 pop 2 _OPPlusFilePath _VC_Directory
+05E2: call_function _GetFileAttributesA_addr num_params 1 pop 0 _VC_Directory _GetFileAttributesA_ret
+if
+ _GetFileAttributesA_ret <> INVALID_FILE_ATTRIBUTES
+jf @OPPlus_file_not_exists_1
+05E0: _FreeLibrary = read_memory FreeLibrary size 4 virtual_protect 0
+05E1: call _FreeLibrary num_params 1 pop 0 _Kernel32_dll_hModule
+05F8: OPPlus_thread_state = var 0@ offset
+05DE: create_custom_thread 'SCR\OP+' CLEO_V_1_6_Thread_ID _cleo_asi_hModule OPPlus_thread_state  
+jump @OPPlus_thread_state
+
+:CLEO_V_2_0_MAIN
+if
+ 0AAB: file_exists "CLEO\SCR\OP+"
+jf @OPPlus_file_not_exists_2
+0AC7: OPPlus_thread_state = var 0@ offset
+0A92: create_custom_thread "SCR\OP+" CLEO_V_2_0_Thread_ID _cleo_asi_hModule OPPlus_thread_state
+jump @OPPlus_thread_state
+
+:freedll
+05E0: _FreeLibrary = read_memory FreeLibrary size 4 virtual_protect 0
+05E1: call _FreeLibrary num_params 1 pop 0 _Kernel32_dll_hModule
+05DC: end_custom_thread
+
+:OPPlus_thread_state
+wait 0
+if
+ OPPlus_thread_state  <> CLEO_V_1_6_Thread_ID
+jf @test_OPPlus_1_6
+if
+ OPPlus_thread_state  <> CLEO_V_2_0_Thread_ID
+jf @test_OPPlus_2_0
+jump @OPPlus_thread_state
