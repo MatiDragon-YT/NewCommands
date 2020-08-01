@@ -1,0 +1,127 @@
+:OP_0614_SET_CHAR_ANIM_CURRENT_TIME_1_6
+//0@ = 0x0614
+//1@ = _RegOpcode
+//2@ = _getParamCollect
+05F7: _ASM_OP_0614 = label @ASM_OP_0614 offset
+_ASM_OP_0614 += 0x0C
+14@ = _ASM_OP_0614
+14@ += 0x4
+2@ -= 14@
+05DF: write_memory _ASM_OP_0614 size 4 value 2@ virtual_protect 1
+_ASM_OP_0614 -= 0x0C
+
+_ASM_OP_0614 += 0x12
+05DF: write_memory _ASM_OP_0614 size 4 value _CTheScripts_ScriptParams virtual_protect 1
+_ASM_OP_0614 -= 0x12
+
+_ASM_OP_0614 += 0x19
+05DF: write_memory _ASM_OP_0614 size 4 value _ZN6CPools11ms_pPedPoolE virtual_protect 1
+_ASM_OP_0614 -= 0x19
+
+_ASM_OP_0614 += 0x1E
+14@ = _ASM_OP_0614
+14@ += 0x4
+13@ = _ZN6CPools6GetPedEi
+13@ -= 14@
+05DF: write_memory _ASM_OP_0614 size 4 value 13@ virtual_protect 1
+_ASM_OP_0614 -= 0x1E
+
+_ASM_OP_0614 += 0x24
+13@ = _CTheScripts_ScriptParams 
+13@ += 0x4
+05DF: write_memory _ASM_OP_0614 size 4 value 13@ virtual_protect 1
+_ASM_OP_0614 -= 0x24
+
+_ASM_OP_0614 += 0x2E
+14@ = _ASM_OP_0614
+14@ += 0x4
+13@ = _CAnimBlendAssociation_RpAnimBlendClumpGetAssociation
+13@ -= 14@
+05DF: write_memory _ASM_OP_0614 size 4 value 13@ virtual_protect 1
+_ASM_OP_0614 -= 0x2E
+
+_ASM_OP_0614 += 0x3F
+13@ = _CTheScripts_ScriptParams 
+13@ += 0x8
+05DF: write_memory _ASM_OP_0614 size 4 value 13@ virtual_protect 1
+_ASM_OP_0614 -= 0x3F
+
+_ASM_OP_0614 += 0x49
+14@ = _ASM_OP_0614
+14@ += 0x4
+13@ = _CAnimBlendAssociation_SetCurrentTime
+13@ -= 14@
+05DF: write_memory _ASM_OP_0614 size 4 value 13@ virtual_protect 1
+_ASM_OP_0614 -= 0x49
+
+05DE: create_custom_thread 'SCR\OP+' OP_Thread_ID 1@ _ASM_OP_0614 CLEO_V_1_6   
+05F6: ret 0
+
+:OP_0614_SET_CHAR_ANIM_CURRENT_TIME_2_0
+//0@ = 0x0614
+//1@ = _RegisterOpcode
+//2@ = _Collect
+0AC6: _ASM_OP_0614 = label @ASM_OP_0614 offset
+0A8E: 14@ = _ASM_OP_0614 + 0x0C
+0606: set_memory_offset memory_pointer 14@ memory_to_point 2@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x12
+0A8C: write_memory 14@ size 4 value _CTheScripts_ScriptParams virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x19
+0A8C: write_memory 14@ size 4 value _ZN6CPools11ms_pPedPoolE virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x1E
+0606: set_memory_offset memory_pointer 14@ memory_to_point _ZN6CPools6GetPedEi virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x24
+0A8E: 13@ = _CTheScripts_ScriptParams + 0x4
+0A8C: write_memory 14@ size 4 value 13@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x2E
+0606: set_memory_offset memory_pointer 14@ memory_to_point _CAnimBlendAssociation_RpAnimBlendClumpGetAssociation virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x3F
+0A8E: 13@ = _CTheScripts_ScriptParams + 0x8
+0A8C: write_memory 14@ size 4 value 13@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0614 + 0x49
+0606: set_memory_offset memory_pointer 14@ memory_to_point _CAnimBlendAssociation_SetCurrentTime virtual_protect 1
+
+0A92: create_custom_thread "SCR\OP+" OP_Thread_ID 1@ _ASM_OP_0614 CLEO_V_2_0
+0AB2: ret 0
+
+:ASM_OP_0614
+hex
+{0000}55               //push    ebp
+{0001}8BEC             //mov     ebp, esp
+{0003}83EC 08          //sub     esp, 8
+{0006}8B4D 08          //mov     ecx, [ebp+8]
+{0009}6A 03            //push    3
+{000B}E8 00000000      //call    CScript::Collect
+{0010}8B0D 00000000    //mov     ecx, ds: ScriptParams
+{0016}51               //push    ecx
+{0017}8B0D 00000000    //mov     ecx, ds: _ZN6CPools11ms_pPedPoolE
+{001D}E8 00000000      //call    _ZN6CPools6GetPedEi
+{0022}8B3D 00000000    //mov     edi, ds: ScriptParams+4
+{0028}8B48 4C          //mov     ecx, [eax+4Ch]
+{002B}57               //push    edi
+{002C}51               //push    ecx
+{002D}E8 00000000      //call    RpAnimBlendClumpGetAssociation
+{0032}85C0             //test    eax, eax
+{0034}74 17            //jz      short loc_004D
+{0036}8B50 14          //mov     edx, [eax+14h]
+{0039}D942 20          //fld     dword ptr [edx+20h]
+{003C}51               //push    ecx
+{003D}D80D 00000000    //fmul    dword ptr ds: ScriptParams+8
+{0043}89C1             //mov     ecx, eax
+{0045}D95D F8          //fstp    dword ptr [ebp-8]
+{0048}E8 00000000      //call    CAnimBlendAssociation::SetCurrentTime
+
+//loc_004D:
+{004D}32C0             //xor     al, al
+{004F}83C4 08          //add     esp, 8
+{0052}8BE5             //mov     esp, ebp
+{0054}5D               //pop     ebp
+{0055}C2 0400          //retn    4
+end

@@ -115,7 +115,7 @@ end
 
 :test_text_1
 hex
- "OPPlus(OP+)v0.1"20"OP"20"test"20"function"20"is"20"enabled."20"By:"20"XMDS."00
+ "OPPlus(OP+)v0.2"20"OP"20"test"20"function"20"is"20"enabled."20"By:"20"XMDS."00
 end
 
 :test_text_2
@@ -130,7 +130,7 @@ end
 
 :test_text_4
 hex
- "OPPlus(OP+)v0.1"20"OP"20"test"20"function"20"is"20"closes."20"By:"20"XMDS."00
+ "OPPlus(OP+)v0.2"20"OP"20"test"20"function"20"is"20"closes."20"By:"20"XMDS."00
 end
 
 :test_bit_0BB4_0BC5_text

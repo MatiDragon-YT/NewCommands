@@ -15,5 +15,5 @@
 
 :OPPlus_text
 hex
- "OPPlus(OP+)v0.1"20"script"20"has"20"been"20"activated!"20"By:"20"XMDS."00
+ "OPPlus(OP+)v0.2"20"script"20"has"20"been"20"activated!"20"By:"20"XMDS."00
 end

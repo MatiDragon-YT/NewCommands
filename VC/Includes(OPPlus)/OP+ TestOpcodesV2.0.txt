@@ -4,7 +4,7 @@ gosub @initialization_var
 if
 0ADC: test_cheat "OPPLUS"
 jf @test_OPPlus_2_0
-0ACA: show_text_box "OPPlus(OP+)v0.1 OP test function is enabled. By: XMDS."
+0ACA: show_text_box "OPPlus(OP+)v0.2 OP test function is enabled. By: XMDS."
 0ACB: show_styled_text "OP currently added: 0BB4---0BC5" time 5000 style 1
 wait 3000
 0ACC: show_text_lowpriority "Please enter the CheatCode to open the corresponding OP test function" time 3000
@@ -125,5 +125,5 @@ if
 jf @test_bit_2_0
 
 :close_OPPlus_2_0
-0ACA: show_text_box "OPPlus(OP+)v0.1 OP test function is closes. By: XMDS."
+0ACA: show_text_box "OPPlus(OP+)v0.2 OP test function is closes. By: XMDS."
 jump @test_OPPlus_2_0

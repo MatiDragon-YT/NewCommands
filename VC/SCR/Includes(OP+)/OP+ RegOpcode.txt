@@ -1,5 +1,5 @@
 {
-0@ = OP_Thread_ID = OP id
+0@ = OP_Thread_ID = OP ID
 1@ = RegisterOpcode
 2@ = OP ASM func
 //2.0: RegisterOpcode(unsigned short id, Opcode func)
@@ -11,48 +11,63 @@ jf @CLEO_V_1_6_OPPlus
 if
  CLEO_V_2_0_Thread_ID <> CLEO_V_2_0
 jf @CLEO_V_2_0_OPPlus
-if or 
- OP_Thread_ID <> 0x0BB4
- OPPlus_detect == CLEO_V_2_0 
-jf @OPPlus_0BB4_1_6
-if or 
- OP_Thread_ID <> 0x0BB4
- OPPlus_detect == CLEO_V_1_6 
-jf @OPPlus_0BB4_2_0
-if or
- OP_Thread_ID <> 0x0BBA
- OPPlus_detect == CLEO_V_2_0
-jf @OPPlus_0BBA_1_6
-if or
- OP_Thread_ID <> 0x0BBA
- OPPlus_detect == CLEO_V_1_6
-jf @OPPlus_0BBA_2_0
-if or
- OP_Thread_ID <> 0x0BBD
- OPPlus_detect == CLEO_V_2_0
-jf @OPPlus_0BBD_1_6
-if or
- OP_Thread_ID <> 0x0BBD
- OPPlus_detect == CLEO_V_1_6
-jf @OPPlus_0BBD_2_0
-if or
- OP_Thread_ID <> 0x0BC0
- OPPlus_detect == CLEO_V_2_0
-jf @OPPlus_0BC0_1_6
-if or
- OP_Thread_ID <> 0x0BC0
- OPPlus_detect == CLEO_V_1_6
-jf @OPPlus_0BC0_2_0
-if or
- OP_Thread_ID <> 0x0BC3
- OPPlus_detect == CLEO_V_2_0
-jf @OPPlus_0BC3_1_6
-if or
- OP_Thread_ID <> 0x0BC3
- OPPlus_detect == CLEO_V_1_6
-jf @OPPlus_0BC3_2_0
 
-05DC: end_custom_thread  
+if
+ OPPlus_detect <> CLEO_V_1_6
+jf @RegOpcode_1_6
+if
+ OPPlus_detect <> CLEO_V_2_0
+jf @RegOpcode_2_0 
+05DC: end_custom_thread
+
+{SA to VC
+0602=1,  actor %1d% driving_taxi --- 0C02=1,  actor %1d% driving_taxi
+0604=3,get_Z_angle_for_point %1d% %2d% store_to %3d% --- 0C04=3,get_Z_angle_for_point %1d% %2d% store_to %3d%
+0611=2,  actor %1d% performing_animation %2h% --- 0611=2,  actor %1d% performing_animation %2d%
+0612=3,set_actor %1d% animation %2h% paused %3h% --- 0612=3,set_actor %1d% animation %2d% paused %3h%
+0613=3,%3d% = actor %1d% animation %2h% time --- 0613=3,%3d% = actor %1d% animation %2d% time
+0614=3,set_actor %1d% animation %2h% progress_to %3d% --- 0614=3,set_actor %1d% animation %2d% progress_to %3d%
+061A=3,get_actor %1d% animation %2h% total_time_to %3d% --- 061A=3,get_actor %1d% animation %2d% total_time_to %3d%
+0619=2,enable_actor %1d% collision_detection %2h% --- 0619=2,enable_actor %1d% collision_detection %2h%
+099A=2,set_car %1d% collision_detection %2h% --- 099A=2,set_car %1d% collision_detection %2h%
+}
+:RegOpcode_1_6
+if
+ OP_Thread_ID <> 0x0BB4
+jf @OPPlus_0BB4_1_6
+if
+ OP_Thread_ID <> 0x0BBA
+jf @OPPlus_0BBA_1_6
+if
+ OP_Thread_ID <> 0x0BBD
+jf @OPPlus_0BBD_1_6
+if
+ OP_Thread_ID <> 0x0BC0
+jf @OPPlus_0BC0_1_6
+if
+ OP_Thread_ID <> 0x0BC3
+jf @OPPlus_0BC3_1_6
+05E1: call 1@ num_params 2 pop 0 OP_Thread_ID 2@
+05DC: end_custom_thread
+
+:RegOpcode_2_0
+if
+ OP_Thread_ID <> 0x0BB4
+jf @OPPlus_0BB4_2_0
+if
+ OP_Thread_ID <> 0x0BBA
+jf @OPPlus_0BBA_2_0
+if
+ OP_Thread_ID <> 0x0BBD
+jf @OPPlus_0BBD_2_0
+if
+ OP_Thread_ID <> 0x0BC0
+jf @OPPlus_0BC0_2_0
+if
+ OP_Thread_ID <> 0x0BC3
+jf @OPPlus_0BC3_2_0
+0AA5: call 1@ num_params 2 pop 0 2@ OP_Thread_ID
+0A93: end_custom_thread
 
 {SA to VC 
 08B4=2,  test %1d% bit %2h% --- 0BB4=2,  test %1d% bit %2h%

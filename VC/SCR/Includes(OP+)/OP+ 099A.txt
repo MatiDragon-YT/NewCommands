@@ -1,0 +1,89 @@
+:OP_099A_SET_CAR_COLLISION_1_6
+//0@ = 0x099A
+//1@ = _RegOpcode
+//2@ = _getParamCollect
+05F7: _ASM_OP_099A = label @ASM_OP_099A offset
+_ASM_OP_099A += 0x09
+14@ = _ASM_OP_099A
+14@ += 0x4
+2@ -= 14@
+05DF: write_memory _ASM_OP_099A size 4 value 2@ virtual_protect 1
+_ASM_OP_099A -= 0x09
+
+_ASM_OP_099A += 0x0E
+05DF: write_memory _ASM_OP_099A size 4 value _CTheScripts_ScriptParams virtual_protect 1
+_ASM_OP_099A -= 0x0E
+
+_ASM_OP_099A += 0x14
+05DF: write_memory _ASM_OP_099A size 4 value _ZN6CPools15ms_pVehiclePoolE virtual_protect 1
+_ASM_OP_099A -= 0x14
+
+_ASM_OP_099A += 0x1A
+14@ = _ASM_OP_099A
+14@ += 0x4
+13@ = _ZN6CPools10GetVehicleEi
+13@ -= 14@
+05DF: write_memory _ASM_OP_099A size 4 value 13@ virtual_protect 1
+_ASM_OP_099A -= 0x1A
+
+_ASM_OP_099A += 0x20
+13@ = _CTheScripts_ScriptParams 
+13@ += 0x4
+05DF: write_memory _ASM_OP_099A size 4 value 13@ virtual_protect 1
+_ASM_OP_099A -= 0x20
+
+05DE: create_custom_thread 'SCR\OP+' OP_Thread_ID 1@ _ASM_OP_099A CLEO_V_1_6   
+05F6: ret 0
+
+:OP_099A_SET_CAR_COLLISION_2_0
+//0@ = 0x099A
+//1@ = _RegisterOpcode
+//2@ = _Collect
+0AC6: _ASM_OP_099A = label @ASM_OP_099A offset
+0A8E: 14@ = _ASM_OP_099A + 0x09
+0606: set_memory_offset memory_pointer 14@ memory_to_point 2@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_099A + 0x0E
+0A8C: write_memory 14@ size 4 value _CTheScripts_ScriptParams virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_099A + 0x14
+0A8C: write_memory 14@ size 4 value _ZN6CPools15ms_pVehiclePoolE virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_099A + 0x1A
+0606: set_memory_offset memory_pointer 14@ memory_to_point _ZN6CPools10GetVehicleEi virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_099A + 0x20
+0A8E: 13@ = _CTheScripts_ScriptParams + 0x4
+0A8C: write_memory 14@ size 4 value 13@ virtual_protect 1
+
+0A92: create_custom_thread "SCR\OP+" OP_Thread_ID 1@ _ASM_OP_099A CLEO_V_2_0
+0AB2: ret 0
+
+:ASM_OP_099A
+hex
+{0000}55               //push    ebp
+{0001}8BEC             //mov     ebp, esp
+{0003}8B4D 08          //mov     ecx, [ebp+8]
+{0006}6A 02            //push    2
+{0008}E8 00000000      //call    CScript::Collect
+{000D}A1 00000000      //mov     eax, ds: ScriptParams
+{0012}8B0D 00000000    //mov     ecx, ds: _ZN6CPools15ms_pVehiclePoolE
+{0018}50               //push    eax
+{0019}E8 00000000      //call    _ZN6CPools10GetVehicleEi
+{001E}8B0D 00000000    //mov     ecx, ds: ScriptParams+4
+{0024}85C9             //test    ecx, ecx
+{0026}8B48 51          //mov     ecx, [eax+51h]
+{0029}74 05            //jz      short loc_0030
+{002B}83C9 01          //or      ecx, 1
+{002E}EB 03            //jmp     short loc_0033
+
+//loc_0030:
+{0030}83E1 FE          //and     ecx, -2h
+
+//loc_0033:
+{0033}8948 51          //mov     [eax+51h], ecx
+{0036}32C0             //xor     al, al
+{0038}8BE5             //mov     esp, ebp
+{003A}5D               //pop     ebp
+{003B}C2 0400          //retn    4
+end

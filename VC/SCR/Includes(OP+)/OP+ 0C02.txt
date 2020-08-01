@@ -1,0 +1,104 @@
+:OP_0C02_IS_CHAR_IN_TAXI_1_6
+//0@ = 0x0C02
+//1@ = _RegOpcode
+//2@ = _getParamCollect
+//3@ = _CompareFlag
+05F7: _ASM_OP_0C02 = label @ASM_OP_0C02 offset
+_ASM_OP_0C02 += 0x09
+14@ = _ASM_OP_0C02
+14@ += 0x4
+2@ -= 14@
+05DF: write_memory _ASM_OP_0C02 size 4 value 2@ virtual_protect 1
+_ASM_OP_0C02 -= 0x09
+
+_ASM_OP_0C02 += 0x0E
+05DF: write_memory _ASM_OP_0C02 size 4 value _CTheScripts_ScriptParams virtual_protect 1
+_ASM_OP_0C02 -= 0x0E
+
+_ASM_OP_0C02 += 0x14
+05DF: write_memory _ASM_OP_0C02 size 4 value _ZN6CPools11ms_pPedPoolE virtual_protect 1
+_ASM_OP_0C02 -= 0x14
+
+_ASM_OP_0C02 += 0x1A
+14@ = _ASM_OP_0C02
+14@ += 0x4
+13@ = _ZN6CPools6GetPedEi
+13@ -= 14@
+05DF: write_memory _ASM_OP_0C02 size 4 value 13@ virtual_protect 1
+_ASM_OP_0C02 -= 0x1A
+
+_ASM_OP_0C02 += 0x60
+14@ = _ASM_OP_0C02
+14@ += 0x4 
+3@ -= 14@
+05DF: write_memory _ASM_OP_0C02 size 4 value 3@ virtual_protect 1
+_ASM_OP_0C02 -= 0x60
+
+05DE: create_custom_thread 'SCR\OP+' OP_Thread_ID 1@ _ASM_OP_0C02 CLEO_V_1_6   
+05F6: ret 0
+
+:OP_0C02_IS_CHAR_IN_TAXI_2_0
+//0@ = 0x0C02
+//1@ = _RegisterOpcode
+//2@ = _Collect
+//3@ = _UpdateCompareFlag
+0AC6: _ASM_OP_0C02 = label @ASM_OP_0C02 offset
+0A8E: 14@ = _ASM_OP_0C02 + 0x09
+0606: set_memory_offset memory_pointer 14@ memory_to_point 2@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0C02 + 0x0E
+0A8C: write_memory 14@ size 4 value _CTheScripts_ScriptParams virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0C02 + 0x14
+0A8C: write_memory 14@ size 4 value _ZN6CPools11ms_pPedPoolE virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0C02 + 0x1A
+0606: set_memory_offset memory_pointer 14@ memory_to_point _ZN6CPools6GetPedEi virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0C02 + 0x60
+0606: set_memory_offset memory_pointer 14@ memory_to_point 3@ virtual_protect 1
+
+0A92: create_custom_thread "SCR\OP+" OP_Thread_ID 1@ _ASM_OP_0C02 CLEO_V_2_0
+0AB2: ret 0
+
+:ASM_OP_0C02
+hex
+{0000}55               //push    ebp
+{0001}8BEC             //mov     ebp, esp
+{0003}8B4D 08          //mov     ecx, [ebp+arg_0]
+{0006}6A 01            //push    1
+{0008}E8 00000000      //call    CScript::Collect
+{000D}A1 00000000      //mov     eax, ds: ScriptParams
+{0012}8B0D 00000000    //mov     ecx, ds: _ZN6CPools11ms_pPedPoolE
+{0018}50               //push    eax
+{0019}E8 00000000      //call    _ZN6CPools6GetPedEi
+{001E}80B8AC03 000000  //cmp     byte ptr [eax+3ACh], 0     {3AC CPed>bool m_bInVehicle}
+{0025}74 32            //jz      short loc_0059
+{0027}8B80A803 0000    //mov     eax, [eax+3A8h]            {3A8 CPed>CVehicle *m_pVehicle}
+{002D}85C0             //test    eax, eax
+{002F}74 28            //jz      short loc_0059
+{0031}0FBF78 5C        //movsx   edi, word ptr [eax+5Ch]    {5C CEntity>short m_nModelIndex}
+{0035}81FF 96000000    //cmp     edi, 96h                   {VehiclesModelID: 150 taxi}
+{003B}74 18            //jz      short loc_0055
+{003D}81FF A8000000    //cmp     edi, 0A8h                  {VehiclesModelID: 168 cabbie}
+{0043}74 10            //jz      short loc_0055
+{0045}81FF BC000000    //cmp     edi, 0BCh                  {VehiclesModelID: 188 zebra}
+{004B}74 08            //jz      short loc_0055
+{004D}81FF D8000000    //cmp     edi, 0D8h                  {VehiclesModelID: 216 kaufman}
+{0053}75 04            //jnz     short loc_0059
+
+//loc_0055:
+{0055}B0 01            //mov     al, 1
+{0057}EB 02            //jmp     short loc_005B
+
+//loc_0059:
+{0059}31 C0            //xor     eax, eax
+
+//loc_005B:
+{005B}8B4D 08          //mov     ecx, [ebp+arg_0] 
+{005E}50               //push    eax
+{005F}E8 00000000      //call    CScript::UpdateCompareFlag
+{0064}32C0             //xor     al, al
+{0066}5D               //pop     ebp
+{0067}C2 0400          //retn    4
+end  

@@ -1,0 +1,115 @@
+:OP_0612_SET_CHAR_ANIM_PLAYING_FLAG_1_6
+//0@ = 0x0612
+//1@ = _RegOpcode
+//2@ = _getParamCollect
+05F7: _ASM_OP_0612 = label @ASM_OP_0612 offset
+_ASM_OP_0612 += 0x09
+14@ = _ASM_OP_0612
+14@ += 0x4
+2@ -= 14@
+05DF: write_memory _ASM_OP_0612 size 4 value 2@ virtual_protect 1
+_ASM_OP_0612 -= 0x09
+
+_ASM_OP_0612 += 0x0F
+05DF: write_memory _ASM_OP_0612 size 4 value _CTheScripts_ScriptParams virtual_protect 1
+_ASM_OP_0612 -= 0x0F
+
+_ASM_OP_0612 += 0x16
+05DF: write_memory _ASM_OP_0612 size 4 value _ZN6CPools11ms_pPedPoolE virtual_protect 1
+_ASM_OP_0612 -= 0x16
+
+_ASM_OP_0612 += 0x1B
+14@ = _ASM_OP_0612
+14@ += 0x4
+13@ = _ZN6CPools6GetPedEi
+13@ -= 14@
+05DF: write_memory _ASM_OP_0612 size 4 value 13@ virtual_protect 1
+_ASM_OP_0612 -= 0x1B
+
+_ASM_OP_0612 += 0x21
+13@ = _CTheScripts_ScriptParams 
+13@ += 0x4
+05DF: write_memory _ASM_OP_0612 size 4 value 13@ virtual_protect 1
+_ASM_OP_0612 -= 0x21
+
+_ASM_OP_0612 += 0x2B
+14@ = _ASM_OP_0612
+14@ += 0x4
+13@ = _CAnimBlendAssociation_RpAnimBlendClumpGetAssociation
+13@ -= 14@
+05DF: write_memory _ASM_OP_0612 size 4 value 13@ virtual_protect 1
+_ASM_OP_0612 -= 0x2B
+
+_ASM_OP_0612 += 0x35
+13@ = _CTheScripts_ScriptParams 
+13@ += 0x8
+05DF: write_memory _ASM_OP_0612 size 4 value 13@ virtual_protect 1
+_ASM_OP_0612 -= 0x35
+
+05DE: create_custom_thread 'SCR\OP+' OP_Thread_ID 1@ _ASM_OP_0612 CLEO_V_1_6   
+05F6: ret 0
+
+:OP_0612_SET_CHAR_ANIM_PLAYING_FLAG_2_0
+//0@ = 0x0612
+//1@ = _RegisterOpcode
+//2@ = _Collect
+0AC6: _ASM_OP_0612 = label @ASM_OP_0612 offset
+0A8E: 14@ = _ASM_OP_0612 + 0x09
+0606: set_memory_offset memory_pointer 14@ memory_to_point 2@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0612 + 0x0F
+0A8C: write_memory 14@ size 4 value _CTheScripts_ScriptParams virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0612 + 0x16
+0A8C: write_memory 14@ size 4 value _ZN6CPools11ms_pPedPoolE virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0612 + 0x1B
+0606: set_memory_offset memory_pointer 14@ memory_to_point _ZN6CPools6GetPedEi virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0612 + 0x21
+0A8E: 13@ = _CTheScripts_ScriptParams + 0x4
+0A8C: write_memory 14@ size 4 value 13@ virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0612 + 0x2B
+0606: set_memory_offset memory_pointer 14@ memory_to_point _CAnimBlendAssociation_RpAnimBlendClumpGetAssociation virtual_protect 1
+
+0A8E: 14@ = _ASM_OP_0612 + 0x35
+0A8E: 13@ = _CTheScripts_ScriptParams + 0x8
+0A8C: write_memory 14@ size 4 value 13@ virtual_protect 1
+
+0A92: create_custom_thread "SCR\OP+" OP_Thread_ID 1@ _ASM_OP_0612 CLEO_V_2_0
+0AB2: ret 0
+
+:ASM_OP_0612
+hex
+{0000}55               //push    ebp
+{0001}8BEC             //mov     ebp, esp
+{0003}8B4D 08          //mov     ecx, [ebp+8]
+{0006}6A 03            //push    3
+{0008}E8 00000000      //call    CScript::Collect
+{000D}8B0D 00000000    //mov     ecx, ds: ScriptParams
+{0013}51               //push    ecx
+{0014}8B0D 00000000    //mov     ecx, ds: _ZN6CPools11ms_pPedPoolE
+{001A}E8 00000000      //call    _ZN6CPools6GetPedEi
+{001F}8B3D 00000000    //mov     edi, ds: ScriptParams+4
+{0025}8B48 4C          //mov     ecx, [eax+4Ch]
+{0028}57               //push    edi
+{0029}51               //push    ecx
+{002A}E8 00000000      //call    RpAnimBlendClumpGetAssociation
+{002F}85C0             //test    eax, eax
+{0031}74 14            //jz      short loc_0047
+{0033}8B1D 00000000    //mov     ebx, ds: ScriptParams+8
+{0039}85DB             //test    ebx, ebx
+{003B}74 06            //jz      short loc_0043
+{003D}8048 2E01        //or      byte ptr [eax+2Eh], 1
+{0041}EB 04            //jmp     short loc_0047
+
+//loc_0043:
+{0043}8060 2EFE        //and     byte ptr [eax+2Eh], 0FEh
+
+//loc_0047:
+{0047}32C0             //xor     al, al
+{0049}8BE5             //mov     esp, ebp
+{004B}5D               //pop     ebp
+{004C}C2 0400          //retn    4
+end

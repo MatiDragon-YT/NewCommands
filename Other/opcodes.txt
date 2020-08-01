@@ -16,3 +16,13 @@
 0BC3: clear 1@ bit 11
 0BC4: clear $377 bit 31
 0BC5: clear 1@ bit 2@
+
+0C02:   actor $PLAYER_ACTOR driving_taxi
+0C04: get_Z_angle_for_point 1@ 2@ store_to 0@
+0611:   actor $PLAYER_ACTOR performing_animation 159
+0612: set_actor $PLAYER_ACTOR animation 210 paused 0
+0613: 0@ = actor $PLAYER_ACTOR animation 159 time
+0614: set_actor $PLAYER_ACTOR animation 126 progress_to 1.0
+061A: get_actor $PLAYER_ACTOR animation 126 total_time_to 15@
+0619: enable_actor $PLAYER_ACTOR collision_detection 0
+099A: set_car 8@ collision_detection 0

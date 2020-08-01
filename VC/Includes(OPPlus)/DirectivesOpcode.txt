@@ -16,3 +16,13 @@
 {$OPCODE 0BC3=2,clear %1d% bit %2h%}
 {$OPCODE 0BC4=2,clear %1d% bit %2d%}
 {$OPCODE 0BC5=2,clear %1d% bit %2d%}
+
+{$OPCODE 0C02=1,  actor %1d% driving_taxi}
+{$OPCODE 0C04=3,get_Z_angle_for_point %1d% %2d% store_to %3d%}
+{$OPCODE 0611=2,  actor %1d% performing_animation %2d%}
+{$OPCODE 0612=3,set_actor %1d% animation %2d% paused %3h%}
+{$OPCODE 0613=3,%3d% = actor %1d% animation %2d% time}
+{$OPCODE 0614=3,set_actor %1d% animation %2d% progress_to %3d%}
+{$OPCODE 061A=3,get_actor %1d% animation %2d% total_time_to %3d%}
+{$OPCODE 0619=2,enable_actor %1d% collision_detection %2h%}
+{$OPCODE 099A=2,set_car %1d% collision_detection %2h%}

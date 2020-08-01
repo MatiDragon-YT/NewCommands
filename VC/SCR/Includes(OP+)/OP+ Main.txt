@@ -1,25 +1,38 @@
 :CLEO_V_1_6_OPPlus
 05F5: call_scm_func @show_text_box params_count 1 @OPPlus_text
-05F5: call_scm_func @get_Func_address params_count 6 _cleo_asi_hModule _cleo_asi_1_6_Imagebase _RegOpcode_ib _getParamCollect_ib _GetVariablePointer_ib _CompareFlag_ib  ret _RegOpcode _getParamCollect _GetVariablePointer _CompareFlag
+05F5: call_scm_func @get_Func_address params_count 7 _cleo_asi_hModule _cleo_asi_1_6_Imagebase _RegOpcode_ib _getParamCollect_ib _GetVariablePointer_ib _CompareFlag_ib _StoreParam_ib  ret _RegOpcode _getParamCollect _GetVariablePointer _CompareFlag _StoreParam
 //opcode
 05F5: call_scm_func @OP_0BB4_TestBit_1_6 params_count 4 0x0BB4 _RegOpcode _getParamCollect _CompareFlag
 05F5: call_scm_func @OP_0BBA_SetBit_1_6 params_count 4 0x0BBA _RegOpcode _getParamCollect _GetVariablePointer
 05F5: call_scm_func @OP_0BBD_SetBit_1_6 params_count 4 0x0BBD _RegOpcode _getParamCollect _GetVariablePointer      
 05F5: call_scm_func @OP_0BC0_ClearBit_1_6 params_count 4 0x0BC0 _RegOpcode _getParamCollect _GetVariablePointer
 05F5: call_scm_func @OP_0BC3_ClearBit_1_6 params_count 4 0x0BC3 _RegOpcode _getParamCollect _GetVariablePointer
+
+05F5: call_scm_func @OP_0C02_IS_CHAR_IN_TAXI_1_6 params_count 4 0x0C02 _RegOpcode _getParamCollect _CompareFlag
+05F5: call_scm_func @OP_0C04_GET_HEADING_FROM_VECTOR_2D_1_6 params_count 4 0x0C04 _RegOpcode _getParamCollect _StoreParam
+05F5: call_scm_func @OP_0611_IS_CHAR_PLAYING_ANIM_1_6 params_count 4 0x0611 _RegOpcode _getParamCollect _CompareFlag
+05F5: call_scm_func @OP_0612_SET_CHAR_ANIM_PLAYING_FLAG_1_6 params_count 3 0x0612 _RegOpcode _getParamCollect
+05F5: call_scm_func @OP_0613_GET_CHAR_ANIM_CURRENT_TIME_1_6 params_count 4 0x0613 _RegOpcode _getParamCollect _StoreParam
+05F5: call_scm_func @OP_0614_SET_CHAR_ANIM_CURRENT_TIME_1_6 params_count 3 0x0614 _RegOpcode _getParamCollect
+05F5: call_scm_func @OP_061A_GET_CHAR_ANIM_TOTAL_TIME_1_6 params_count 4 0x061A _RegOpcode _getParamCollect _StoreParam
+05F5: call_scm_func @OP_0619_SET_CHAR_COLLISION_1_6 params_count 3 0x0619 _RegOpcode _getParamCollect
+05F5: call_scm_func @OP_099A_SET_CAR_COLLISION_1_6 params_count 3 0x099A _RegOpcode _getParamCollect
 OPPlus_thread_state += 0x3C
 05DF: write_memory OPPlus_thread_state size 4 value CLEO_V_1_6 virtual_protect 1
 wait 5000
 03E6: remove_text_box
 05DC: end_custom_thread
 
-:get_Func_address{
+:get_Func_address
+{
 0@ = _cleo_asi_hModule
 1@ = _cleo_asi_1_6_Imagebase
 2@ = _RegOpcode_ib
 3@ = _getParamCollect_ib
 4@ = _GetVariablePointer_ib
-5@ = _CompareFlag_ib }
+5@ = _CompareFlag_ib
+6@ = _StoreParam_ib 
+}
 2@ -= 1@
 2@ += 0@
 3@ -= 1@
@@ -28,13 +41,15 @@ wait 5000
 4@ += 0@
 5@ -= 1@
 5@ += 0@
-05F6: ret 4 2@ 3@ 4@ 5@   
+6@ -= 1@
+6@ += 0@
+05F6: ret 5 2@ 3@ 4@ 5@ 6@   
 
 :CLEO_V_2_0_OPPlus
 if
 0AA9:  is_game_version_original 
 jf @CLEO_V_2_0_OPPlus
-0ADF: add_dynamic_GXT_entry "OP+text" text "OPPlus(OP+)v0.1 script has been activated! By: XMDS."
+0ADF: add_dynamic_GXT_entry "OP+text" text "OPPlus(OP+)v0.2 script has been activated! By: XMDS."
 0512: show_permanent_text_box 'OP+text' 
 //0AA2: _cleo_asi_hModule = load_library "VC.CLEO.asi"
 if and
@@ -42,6 +57,7 @@ if and
  0AA4: _Collect = get_proc_address "?Collect@CScript@@QAEXI@Z" library _cleo_asi_hModule   //CScript::Collect(unsigned int numParams)
  0AA4: _GetPointerToScriptVariable = get_proc_address "?GetPointerToScriptVariable@CScript@@QAEPAXXZ" library _cleo_asi_hModule //CScript::GetPointerToScriptVariable()
  0AA4: _UpdateCompareFlag = get_proc_address "?UpdateCompareFlag@CScript@@QAEX_N@Z" library _cleo_asi_hModule //CScript::UpdateCompareFlag(bool result)
+ 0AA4: _Store = get_proc_address "?Store@CScript@@QAEXI@Z" library _cleo_asi_hModule //CScript::Store(unsigned int numParams)
 jf @get_addr_failed
 //opcode
 0AB1: call_scm_func @OP_0BB4_TestBit_2_0 4 0x0BB4 _RegisterOpcode _Collect _UpdateCompareFlag
@@ -49,6 +65,16 @@ jf @get_addr_failed
 0AB1: call_scm_func @OP_0BBD_SetBit_2_0 4 0x0BBD _RegisterOpcode _Collect _GetPointerToScriptVariable
 0AB1: call_scm_func @OP_0BC0_ClearBit_2_0 4 0x0BC0 _RegisterOpcode _Collect _GetPointerToScriptVariable
 0AB1: call_scm_func @OP_0BC3_ClearBit_2_0 4 0x0BC3 _RegisterOpcode _Collect _GetPointerToScriptVariable
+
+0AB1: call_scm_func @OP_0C02_IS_CHAR_IN_TAXI_2_0 4 0x0C02 _RegisterOpcode _Collect _UpdateCompareFlag
+0AB1: call_scm_func @OP_0C04_GET_HEADING_FROM_VECTOR_2D_2_0 4 0x0C04 _RegisterOpcode _Collect _Store
+0AB1: call_scm_func @OP_0611_IS_CHAR_PLAYING_ANIM_2_0 4 0x0611 _RegisterOpcode _Collect _UpdateCompareFlag
+0AB1: call_scm_func @OP_0612_SET_CHAR_ANIM_PLAYING_FLAG_2_0 3 0x0612 _RegisterOpcode _Collect
+0AB1: call_scm_func @OP_0613_GET_CHAR_ANIM_CURRENT_TIME_2_0 4 0x0613 _RegisterOpcode _Collect _Store
+0AB1: call_scm_func @OP_0614_SET_CHAR_ANIM_CURRENT_TIME_2_0 3 0x0614 _RegisterOpcode _Collect
+0AB1: call_scm_func @OP_061A_GET_CHAR_ANIM_TOTAL_TIME_2_0 4 0x061A _RegisterOpcode _Collect _Store
+0AB1: call_scm_func @OP_0619_SET_CHAR_COLLISION_2_0 3 0x0619 _RegisterOpcode _Collect
+0AB1: call_scm_func @OP_099A_SET_CAR_COLLISION_2_0 3 0x099A _RegisterOpcode _Collect
 OPPlus_thread_state += 0x3C
 0A8C: write_memory OPPlus_thread_state size 4 value CLEO_V_2_0 virtual_protect 1
 wait 5000

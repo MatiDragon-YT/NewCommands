@@ -1,7 +1,7 @@
 {$CLEO}
 thread 'OPPlus'
 {by :XMDS}
-{VC OP+ 0.1}
+{VC OP+ 0.2}
 
 {$INCLUDE Includes(OP+)\OP+ ConstVar.txt}
 
@@ -14,5 +14,15 @@ thread 'OPPlus'
 {$INCLUDE Includes(OP+)\OP+ 0BBD-0BBF.txt}
 {$INCLUDE Includes(OP+)\OP+ 0BC0-0BC2.txt}
 {$INCLUDE Includes(OP+)\OP+ 0BC3-0BC5.txt}
+
+{$INCLUDE Includes(OP+)\OP+ 0C02.txt}
+{$INCLUDE Includes(OP+)\OP+ 0C04.txt}
+{$INCLUDE Includes(OP+)\OP+ 0611.txt}
+{$INCLUDE Includes(OP+)\OP+ 0612.txt}
+{$INCLUDE Includes(OP+)\OP+ 0613.txt}
+{$INCLUDE Includes(OP+)\OP+ 0614.txt}
+{$INCLUDE Includes(OP+)\OP+ 061A.txt}
+{$INCLUDE Includes(OP+)\OP+ 0619.txt}
+{$INCLUDE Includes(OP+)\OP+ 099A.txt}
 
 {$INCLUDE Includes(OP+)\OP+ Text.txt}
