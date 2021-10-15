@@ -1,0 +1,20 @@
+vc:
+0C00=1,%1d% = get_next_weather
+0C01=1,set_next_weather %1d%
+0C02=1,%1d% = get_rain_intensity
+0C03=1,set_rain_intensity %1d%
+0C04=1,%1d% = get_rainbow_intensity
+0C05=1,set_rainbow_intensity %1d%
+0C06=1,%1d% = get_foggy_intensity
+0C07=1,set_foggy_intensity %1d%
+0C08=1,%1d% = get_cloud_coverage_intensity
+0C09=1,set_cloud_coverage_intensity %1d%
+0C0A=1,%1d% = get_sun_glare_intensity
+0C0B=1,set_sun_glare_intensity %1d%
+0C0C=1,%1d% = get_wind_intensity
+0C0D=1,set_wind_intensity %1d%
+0C0E=1,%1d% = get_traffic_light_brightness
+0C0F=1,set_traffic_light_brightness %1d%
+0C10=1,%1d% = get_forced_weather
+
+0C30=4,load_custom_animation_ifp_name %1s% anim_name %2s% to_animgroup %3d% anim %4d% //if and set
