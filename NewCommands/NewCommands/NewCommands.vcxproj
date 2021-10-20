@@ -94,6 +94,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="NewCommands.cpp" />
+    <ClCompile Include="ObjectScalingExtension.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NewCommands.h" />
+    <ClInclude Include="ObjectScalingExtension.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

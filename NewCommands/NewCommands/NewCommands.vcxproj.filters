@@ -2,5 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="NewCommands.cpp" />
+    <ClCompile Include="ObjectScalingExtension.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ObjectScalingExtension.h" />
+    <ClInclude Include="NewCommands.h" />
   </ItemGroup>
 </Project>
