@@ -1,9 +1,9 @@
 # NewCommands
 ### English
-NewCommands is a plug-in that adds more new Opcodes commands to the game GTAVC/GTA3/GTASA/GTALCS. These new Opcodes commands can be used when writing CLEO. They are divided into PC version and Android version, which can be used in PC version CLEO and Android version CLEO.
+NewCommands is a plug-in that adds more new CLEO Opcodes commands to the game GTAVC/GTA3/GTASA/GTALCS. These new Opcodes commands can be used when writing CLEO. They are divided into PC version and Android version, which can be used in PC version CLEO and Android version CLEO.
 
 ### 中文
-NewCommands是一个为游戏GTAVC/GTA3/GTASA/GTALCS添加更多新的Opcodes命令的插件.这些新的Opcodes命令可用于在CLEO编写时使用。它们分为PC版和安卓版，可在PC版CLEO和安卓版CLEO使用。
+NewCommands是一个为游戏GTAVC/GTA3/GTASA/GTALCS添加更多新的CLEO Opcodes命令的插件.这些新的Opcodes命令可用于在CLEO编写时使用。它们分为PC版和安卓版，可在PC版CLEO和安卓版CLEO使用。
 
 ## Supported games(支持的游戏):
 |GAME/游戏| Version/版本 | CLEOLibraryVersio/CLEO主程序版本 |ing|
