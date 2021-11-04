@@ -6,6 +6,8 @@
     <ClInclude Include="cleo.h">
       <Filter>cleo_sdk</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryCall.h" />
+    <ClInclude Include="GameFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NewCommands.cpp" />

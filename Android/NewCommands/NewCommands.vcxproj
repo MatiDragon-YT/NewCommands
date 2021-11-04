@@ -155,6 +155,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cleo.h" />
+    <ClInclude Include="GameFunc.h" />
+    <ClInclude Include="MemoryCall.h" />
     <ClInclude Include="NewCommands.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
