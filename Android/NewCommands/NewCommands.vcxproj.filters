@@ -1,20 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="NewCommands.h" />
-    <ClInclude Include="cleo.h">
-      <Filter>cleo_sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="MemoryCall.h" />
-    <ClInclude Include="GameFunc.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="NewCommands.cpp" />
+    <ClCompile Include="CRunningScript.cpp" />
+    <ClCompile Include="GameFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="cleo_sdk">
-      <UniqueIdentifier>{f8c4b8e7-2251-4b7d-90a0-e1d6b52c3c5c}</UniqueIdentifier>
+    <ClInclude Include="NewCommands.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="CLEO_SDK\cleo.h">
+      <Filter>CLEO_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFunc.h" />
+    <ClInclude Include="CRunningScript.h" />
+    <ClInclude Include="ARMHook\ARMCall.h">
+      <Filter>ARMHook</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CLEO_SDK">
+      <UniqueIdentifier>{c80104df-880f-4956-93ee-2aaff0837e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ARMHook">
+      <UniqueIdentifier>{b7a3332c-5ed5-46b1-9347-8d9c3b9c0ce2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

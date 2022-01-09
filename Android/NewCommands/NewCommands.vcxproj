@@ -35,7 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{06bb414a-ea03-4bc2-b7b9-9b89671f5bbe}</ProjectGuid>
+    <ProjectGuid>{4dd29533-4094-40b3-b66d-48ffbd4c0e1b}</ProjectGuid>
     <Keyword>Android</Keyword>
     <RootNamespace>NewCommands</RootNamespace>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
@@ -62,7 +62,6 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>Clang_5_0</PlatformToolset>
-    <ThumbMode>Thumb</ThumbMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -151,17 +150,21 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <CppLanguageStandard>c++1z</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="cleo.h" />
-    <ClInclude Include="GameFunc.h" />
-    <ClInclude Include="MemoryCall.h" />
-    <ClInclude Include="NewCommands.h" />
-    <ClInclude Include="pch.h" />
+    <ClCompile Include="CRunningScript.cpp" />
+    <ClCompile Include="GameFunc.cpp" />
+    <ClCompile Include="NewCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NewCommands.cpp" />
+    <ClInclude Include="ARMHook\ARMCall.h" />
+    <ClInclude Include="CLEO_SDK\cleo.h" />
+    <ClInclude Include="CRunningScript.h" />
+    <ClInclude Include="GameFunc.h" />
+    <ClInclude Include="NewCommands.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
