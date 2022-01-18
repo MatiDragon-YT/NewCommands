@@ -154,12 +154,20 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ARMHook\ARMHook.cpp" />
+    <ClCompile Include="ARMHook\CPatch.cpp" />
+    <ClCompile Include="ARMHook\MemoryPermission\MemoryPermission.cpp" />
     <ClCompile Include="CRunningScript.cpp" />
     <ClCompile Include="GameFunc.cpp" />
     <ClCompile Include="NewCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ARMHook\ARMCall.h" />
+    <ClInclude Include="ARMHook\ARMHook.h" />
+    <ClInclude Include="ARMHook\Assembly\eInstructionSet.h" />
+    <ClInclude Include="ARMHook\Assembly\UsefulMacros.h" />
+    <ClInclude Include="ARMHook\CPatch.h" />
+    <ClInclude Include="ARMHook\MemoryPermission\MemoryPermission.h" />
     <ClInclude Include="CLEO_SDK\cleo.h" />
     <ClInclude Include="CRunningScript.h" />
     <ClInclude Include="GameFunc.h" />

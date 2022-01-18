@@ -2,12 +2,19 @@
 #include "CRunningScript.h"
 #include "GameFunc.h"
 #include <algorithm>
-#include <ctype.h>
+#include <iostream>
 
+using namespace std;
+
+GameFunc Game;
 cleo_ifs_t* cleo = nullptr;
 int GameVersion = -1;
 int GameId = -1;
-ScriptVar Params[0x100];
+uintptr_t LibAddr;
+ScriptVar Params[50];
+std::string CleoFileDir1;
+std::string CleoFileDir2 = "/storage/emulated/0/Android/data/com.rockstargames.gtasa/files/";
+//std::string s2 = cleo->GetCleoStorageDir();
 
 char* ReadString(void* handle, uint32_t* ip, char* buf, unsigned char size);
 int format(void* handle, uint32_t* ip, char* str, size_t len, const char* format);
@@ -89,17 +96,89 @@ void NewCommands::GET_OBJECT_POINTER(__handler_params)
 //0A99=1,set_current_directory %1buserdir/rootdir%
 void NewCommands::CHDIR(__handler_params)
 {
-
+	int* ipptr = reinterpret_cast<int*>(cleo->GetRealCodePointer(*ip));
+	unsigned char type = *(unsigned char*)ipptr;
+	if (type >= SCRIPTPARAM_STATIC_INT_32BITS && type <= SCRIPTPARAM_LOCAL_NUMBER_ARRAY)
+	{
+		Params[0].n = cleo->ReadParam(handle)->i;
+		if (Params[0].n == -1)
+			chdir("/");
+		else if (Params[0].n == 0)
+			reinterpret_cast<SA_Script*>(handle)->CleoFileDir = Params[0].n;
+		else
+			reinterpret_cast<SA_Script*>(handle)->CleoFileDir = Params[0].n;
+	}
+	else
+	{
+		char buf[0xFF];
+		Params[0].c = ReadString(handle, ip, buf, sizeof(buf));
+		chdir(Params[0].c);
+	}
 }
 
-/*
+//0A9A=3,%3d% = open_file %1s% mode %2d%; IF and SET
+void NewCommands::OPEN_FILE(__handler_params)
+{
+	char buf[0xFF], mode[0x10];
+	Params[0].c = ReadString(handle, ip, buf, sizeof(buf));
+	int* ipptr = reinterpret_cast<int*>(cleo->GetRealCodePointer(*ip));
+	unsigned char type = *(unsigned char*)ipptr;
+	if (type >= SCRIPTPARAM_STATIC_INT_32BITS && type <= SCRIPTPARAM_LOCAL_NUMBER_ARRAY)
+	{
+		union
+		{
+			unsigned uParam;
+			char strParam[4];
+		}param;
+		param.uParam = cleo->ReadParam(handle)->i;
+		strcpy(mode, param.strParam);
+	}
+	else
+		ReadString(handle, ip, mode, sizeof(mode));
 
-0A9A = 3, % 3d % = open_file % 1s % mode % 2d%; IFand SET
-0A9B = 1, close_file % 1d %
-0A9C = 2, % 2d % = file % 1d % size
-0A9D = 3, read_file % 1d % size % 2d % to % 3d %
-0A9E = 3, write_file % 1d % size % 2d % from % 3d %
-*/
+	auto file = fopen(Params[0].c, mode);
+	cleo->GetPointerToScriptVar(handle)->i = reinterpret_cast<int>(file);
+	if (file)
+		Game.openedFiles->insert(file);
+	reinterpret_cast<CRunningScript*>(handle)->UpdateCompareFlag(file != nullptr);
+}
+
+//0A9B=1,close_file %1d%
+void NewCommands::CLOSE_FILE(__handler_params)
+{
+	Params[0].n = cleo->ReadParam(handle)->i;
+	fclose((FILE *)Params[0].n);
+	Game.openedFiles->erase((FILE*)Params[0].n);
+}
+
+//0A9C=2,%2d% = file %1d% size
+void NewCommands::GET_FILE_SIZE(__handler_params)
+{
+	FILE* file = reinterpret_cast<FILE*>(cleo->ReadParam(handle)->i);
+	auto savedPos = ftell(file);
+	fseek(file, 0, SEEK_END);
+	cleo->GetPointerToScriptVar(handle)->u = static_cast<unsigned>(ftell(file));
+	fseek(file, savedPos, SEEK_SET);
+}
+
+//0A9D=3,read_file %1d% size %2d% to %3d%
+void NewCommands::READ_FROM_FILE(__handler_params)
+{
+	FILE* file = reinterpret_cast<FILE*>(cleo->ReadParam(handle)->i);
+	unsigned int size = cleo->ReadParam(handle)->u;
+	void* buf = reinterpret_cast<void*>(cleo->ReadParam(handle)->i);
+	fread(buf, size, 1, file);
+}
+
+//0A9E=3,write_file %1d% size %2d% from %3d%
+void NewCommands::WRITE_TO_FILE(__handler_params)
+{
+	FILE* file = reinterpret_cast<FILE*>(cleo->ReadParam(handle)->i);
+	unsigned int size = cleo->ReadParam(handle)->u;
+	void* buf = reinterpret_cast<void*>(cleo->ReadParam(handle)->i);
+	fwrite(buf, size, 1, file);
+	fflush(file);
+}
 
 //0A9F=1,%1d% = get_this_script_struct
 void NewCommands::GET_THIS_SCRIPT_STRUCT(__handler_params)
@@ -496,40 +575,56 @@ void NewCommands::BITWISE_SHL_THING_BY_THING(__handler_params)
 	*(int*)Params[0].p <<= Params[1].n;
 }
 
+//0D5C=3,%3d% = get_car %1d% light %2d% damage_state
+void NewCommands::GET_CAR_LIGHT_DAMAGE_STATUS(__handler_params)
+{
+	Params[0].n = cleo->ReadParam(handle)->i;
+	Params[1].n = cleo->ReadParam(handle)->u;
+	Params[2].p = &cleo->GetPointerToScriptVar(handle)->u;
+	CVehicle* Vehicle = CPools::GetVehicle(Params[0].n);
+	CDamageManager* Damage;
+	switch (GameId)
+	{
+	case GTASA:
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + (GET_GAME_VER() ? 0x5B4 : 0x5B0));
+		break;
+	case GTAVC:
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x2A4);
+		break;
+	case GTA3:
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x28C);
+		break;
+	case GTALCS:
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x34C);
+		break;
+	}
+	*(unsigned int*)Params[2].p = Damage->GetLightStatus(static_cast<CDamageManager::eLights>(Params[1].n));
+}
+
 //0D5D=3,set_car %1d% light %2d% damage_state %3d%
 void NewCommands::SET_CAR_LIGHT_DAMAGE_STATUS(__handler_params)
 {
 	Params[0].n = cleo->ReadParam(handle)->i;
-	Params[1].n = cleo->ReadParam(handle)->i;
-	Params[2].n = cleo->ReadParam(handle)->i;
+	Params[1].n = cleo->ReadParam(handle)->u;
+	Params[2].n = cleo->ReadParam(handle)->u;
 	CVehicle* Vehicle = CPools::GetVehicle(Params[0].n);
+	CDamageManager* Damage;
 	switch (GameId)
 	{
 	case GTASA:
-	{
-		CDamageManager* Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + (GET_GAME_VER() ? 0x5B4 : 0x5B0));
-		Damage->SetLightStatus(static_cast<CDamageManager::eLights>(Params[1].n), Params[2].n);
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + (GET_GAME_VER() ? 0x5B4 : 0x5B0));
 		break;
-	}
 	case GTAVC:
-	{
-		CDamageManager* Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x2A4);
-		Damage->SetLightStatus(static_cast<CDamageManager::eLights>(Params[1].n), Params[2].n);
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x2A4);
 		break;
-	}
 	case GTA3:
-	{
-		CDamageManager* Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x28C);
-		Damage->SetLightStatus(static_cast<CDamageManager::eLights>(Params[1].n), Params[2].n);
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x28C);
 		break;
-	}
 	case GTALCS:
-	{
-		CDamageManager* Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x34C);
-		Damage->SetLightStatus(static_cast<CDamageManager::eLights>(Params[1].n), Params[2].n);
+		Damage = reinterpret_cast<CDamageManager*>((int)Vehicle + 0x34C);
 		break;
 	}
-	}
+	Damage->SetLightStatus(static_cast<CDamageManager::eLights>(Params[1].n), Params[2].n);
 }
 
 void FatalFormatInfo(const char* fmt, ...)
@@ -812,6 +907,16 @@ void NewCommands::testb(__handler_params)
 	   //IP地址指向的指针
 }*/
 
+void ScriptsEvent() //0x003F3AE8
+{
+	cleo->PrintToCleoLog("XMDS23333333333");
+	CTheScripts::Init();
+	std::for_each(Game.openedFiles->begin(), Game.openedFiles->end(), fclose);
+	Game.openedFiles->clear();
+	cleo->PrintToCleoLog("ppppppppppppppppp");
+	return;
+}
+
 NewCommands::NewCommands()
 {
 	cleo->PrintToCleoLog("'libNewCommands.so' plugin init, by: XMDS");
@@ -827,6 +932,11 @@ NewCommands::NewCommands()
 	cleo->PrintToCleoLog(cleo->GetCleoStorageDir());
 	cleo->PrintToCleoLog(cleo->GetMainLibraryFileName());
 	*/
+	//uintptr_t adr = ARMHook::GetLibraryAddress("libGTASA.so");
+	LibAddr = reinterpret_cast<uintptr_t>(cleo->GetMainLibraryLoadAddress());
+	Game.initScriptsEvent();
+	CleoFileDir1 = cleo->GetCleoStorageDir();
+	cleo->PrintToCleoLog(CleoFileDir1.c_str());
 	cleo->RegisterOpcode(0x0B8E, INT_ADD);
 	cleo->RegisterOpcode(0x0B8F, INT_SUB);
 	cleo->RegisterOpcode(0x0B90, INT_MUL);
@@ -836,6 +946,11 @@ NewCommands::NewCommands()
 	cleo->RegisterOpcode(0x0A98, GET_OBJECT_POINTER);
 
 	cleo->RegisterOpcode(0x0A99, CHDIR);
+	cleo->RegisterOpcode(0x0A9A, OPEN_FILE);
+	cleo->RegisterOpcode(0x0A9B, CLOSE_FILE);
+	cleo->RegisterOpcode(0x0A9C, GET_FILE_SIZE);
+	cleo->RegisterOpcode(0x0A9D, READ_FROM_FILE);
+	cleo->RegisterOpcode(0x0A9E, WRITE_TO_FILE);
 
 	cleo->RegisterOpcode(0x0A9F, GET_THIS_SCRIPT_STRUCT);
 	cleo->RegisterOpcode(0x0AC7, GET_VAR_POINTER);
@@ -863,6 +978,7 @@ NewCommands::NewCommands()
 	cleo->RegisterOpcode(0x0B1C, BITWISE_SHR_THING_BY_THING);
 	cleo->RegisterOpcode(0x0B1D, BITWISE_SHL_THING_BY_THING);
 
+	cleo->RegisterOpcode(0x0D5C, GET_CAR_LIGHT_DAMAGE_STATUS);
 	cleo->RegisterOpcode(0x0D5D, SET_CAR_LIGHT_DAMAGE_STATUS);
 	//cleo->RegisterOpcode(0x0C04, testa);
 	//cleo->RegisterOpcode(0x0C05, testb);

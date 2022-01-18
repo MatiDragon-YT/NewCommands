@@ -1,4 +1,13 @@
 #pragma once
+#include <set>
+
+class GameFunc {
+public:
+	std::set<FILE*>* openedFiles;
+	void initScriptsEvent();
+};
+
+
 
 class CPed;
 class CVehicle;
@@ -57,8 +66,15 @@ public:
 	enum eLights {
 		LIGHT_FRONT_LEFT = 0,
 		LIGHT_FRONT_RIGHT = 1,
-		LIGHT_REAR_RIGHT = 2,
-		LIGHT_REAR_LEFT = 3
+		LIGHT_REAR_RIGHT = 2, //GTA3 LCS: LIGHT_REAR_LEFT = 2
+		LIGHT_REAR_LEFT = 3   //GTA3 LCS: LIGHT_REAR_RIGHT = 3
 	};
 	void SetLightStatus(eLights light, unsigned int status);
+	unsigned int GetLightStatus(eLights light);
+};
+
+class CTheScripts
+{
+public:
+	static void Init();
 };

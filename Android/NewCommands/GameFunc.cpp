@@ -1,6 +1,14 @@
 #include "GameFunc.h"
 #include "NewCommands.h"
 
+void GameFunc::initScriptsEvent()
+{
+	this->openedFiles = new std::set<FILE*>;
+	cleo->ReplaceThumbCall((void*)(LibAddr + 0x003F3AE8), (void*)ScriptsEvent);
+	cleo->ReplaceThumbCall((void*)(LibAddr + 0x00473004), (void*)ScriptsEvent);
+	cleo->ReplaceThumbCall((void*)(LibAddr + 0x0048C3A2), (void*)ScriptsEvent);
+}
+
 CPed* CPools::GetPed(int handle)
 {
 	return CArmCall::Function<CPed*, int>(reinterpret_cast<int>(cleo->GetMainLibrarySymbol("_ZN6CPools6GetPedEi")), handle);
@@ -78,7 +86,22 @@ void CMessages::AddMessageJumpQ(wchar_t* text, unsigned int time, unsigned short
 
 
 
+
+
+
+
+
 void CDamageManager::SetLightStatus(eLights light, unsigned int status)
 {
 	return CArmCall::Method<void, CDamageManager*, eLights, unsigned int>(reinterpret_cast<int>(cleo->GetMainLibrarySymbol("_ZN14CDamageManager14SetLightStatusE7eLightsj")), this, light, status);
+}
+
+unsigned int CDamageManager::GetLightStatus(eLights light)
+{
+	return CArmCall::Method<unsigned int, CDamageManager*, eLights>(reinterpret_cast<int>(cleo->GetMainLibrarySymbol("_ZNK14CDamageManager14GetLightStatusE7eLights")), this, light);
+}
+
+void CTheScripts::Init()
+{
+	return CArmCall::Function<void>(reinterpret_cast<int>(cleo->GetMainLibrarySymbol("_ZN11CTheScripts4InitEv")));
 }

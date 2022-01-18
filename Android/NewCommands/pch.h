@@ -6,7 +6,3 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-
-#include <errno.h>
-#include <sys/resource.h>
-#include <android/log.h>

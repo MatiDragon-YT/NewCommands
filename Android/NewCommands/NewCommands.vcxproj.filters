@@ -4,6 +4,15 @@
     <ClCompile Include="NewCommands.cpp" />
     <ClCompile Include="CRunningScript.cpp" />
     <ClCompile Include="GameFunc.cpp" />
+    <ClCompile Include="ARMHook\ARMHook.cpp">
+      <Filter>ARMHook</Filter>
+    </ClCompile>
+    <ClCompile Include="ARMHook\CPatch.cpp">
+      <Filter>ARMHook</Filter>
+    </ClCompile>
+    <ClCompile Include="ARMHook\MemoryPermission\MemoryPermission.cpp">
+      <Filter>ARMHook\MemoryPermission</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NewCommands.h" />
@@ -16,6 +25,21 @@
     <ClInclude Include="ARMHook\ARMCall.h">
       <Filter>ARMHook</Filter>
     </ClInclude>
+    <ClInclude Include="ARMHook\ARMHook.h">
+      <Filter>ARMHook</Filter>
+    </ClInclude>
+    <ClInclude Include="ARMHook\CPatch.h">
+      <Filter>ARMHook</Filter>
+    </ClInclude>
+    <ClInclude Include="ARMHook\Assembly\eInstructionSet.h">
+      <Filter>ARMHook\Assembly</Filter>
+    </ClInclude>
+    <ClInclude Include="ARMHook\Assembly\UsefulMacros.h">
+      <Filter>ARMHook\Assembly</Filter>
+    </ClInclude>
+    <ClInclude Include="ARMHook\MemoryPermission\MemoryPermission.h">
+      <Filter>ARMHook\MemoryPermission</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CLEO_SDK">
@@ -23,6 +47,12 @@
     </Filter>
     <Filter Include="ARMHook">
       <UniqueIdentifier>{b7a3332c-5ed5-46b1-9347-8d9c3b9c0ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ARMHook\Assembly">
+      <UniqueIdentifier>{1fce2b6f-9c73-49fb-b111-2810a7600e5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ARMHook\MemoryPermission">
+      <UniqueIdentifier>{1296e624-0540-4f5b-a3c2-1eaf52b03d80}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

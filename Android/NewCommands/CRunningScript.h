@@ -95,7 +95,8 @@ struct SA_RunningScript
 	short field_F6;
 	char* sceneSkip;//0xF8
 	bool isMission;//0xFC
-	char field_FD[3];
+	char CleoFileDir; //NewCommands
+	char field_FE[2];
 };
 
 struct VC_RunningScript
@@ -149,7 +150,7 @@ struct LCS_RunningScript
 	LCS_RunningScript* next;//0x00
 	LCS_RunningScript* prev;//0x04
 	int processId;//0x08
-	char field_0C;
+	char field_0C[4];
 	char scriptName[8];//0x10
 	int ip;//0x18
 	char* gosub_stack[16];//0x1C
