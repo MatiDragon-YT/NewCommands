@@ -10,16 +10,18 @@ NewCommands是一个为游戏GTAVC/GTA3/GTASA/GTALCS添加更多新的CLEO Opcod
 |:-------------:|:---------------:|:---------------:|:---------------:|
 |PC GTAVC      |  1.0    |CLEO v2.0.0.5 and above|Ongoing.../正在进行中...|
 |PC GTA3       |  1.0    |CLEO v2.0.0.5 and above|Not yet started/暂无|
-|PC GTASA      |  1.0    |CLEO v4.4.0 and above  |Not yet started/暂无|
 |Android GTAVC |1.07/1.09|Android CLEO 2.0.1/Date: Apr 2021|Ongoing.../正在进行中...|
 |Android GTASA |1.08/2.00|Android CLEO 2.0.1/Date: Apr 2021|Ongoing.../正在进行中...|
 |Android GTA3  |1.6/1.8  |Android CLEO 2.0.1/Date: Apr 2021|Ongoing.../正在进行中...|
-|Android GTALCS|2.2/2.4  |Android CLEO 2.0.1/Date: Apr 2021|Ongoing.../正在进行中...|
+|Android GTALCS|  2.4    |Android CLEO 2.0.1/Date: Apr 2021|Ongoing.../正在进行中...|
 
 ## Thanks for the following：
 [plugin-sdk](https://github.com/DK22Pac/plugin-sdk)    
-[III.VC/CLEO_SDK](https://github.com/cleolibrary/III.VC.CLEO)    
+[III.VC/CLEO_Library](https://github.com/cleolibrary/III.VC.CLEO) 
+[SA/CLEO4_Library](https://github.com/cleolibrary/CLEO4.git)
 [CLEO_ANDROID](https://gtaforums.com/topic/663125-android-cleo-android/)
 
 ### people：
-[小k](https://github.com/NyaNLI)
+[小k](https://github.com/MiaoNLI)
+[Fastman92](http://fastman92.com/)
+[x87](https://github.com/x87)
